@@ -2,6 +2,7 @@ import CITS2200.*;
 
 /**
  * DAG Map Assignment Interface and Class
+ * For CITS2200. Project 1.
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
  */
@@ -34,6 +35,17 @@ public interface DirAcycGraph
 	 * Describe Method here
 	 */
 	public void remove (int k);
+
+	
+	public void set ();
+
+}
+
+/**
+ * DAGMap implementation of DirAcycGraph Interface
+ */
+public static class DAGMap implements DirAcycGraph
+{
 
 	/**
 	 * DAG operation: adds a directed edge between two vertices, provided no cycle is created
@@ -69,7 +81,8 @@ public interface DirAcycGraph
 
 	/** 
 	 * @param val, value to be tested
-	 * @return true if and only if there is at least one vertex in the graph with a label equal to value
+	 * @return true if and only if there is at
+	 * least one vertex in the graph with a label equal to value
 	 **/
 	public boolean containsValue (int val) {
 	}
@@ -81,30 +94,94 @@ public interface DirAcycGraph
 	 * some other vertex v that is dependent on kOne, where there is an edge from v to kTwo.
 	 * @param kOne - the requirement vertex
 	 * @param kTwo - the dependent vertex
-	 * @return true if and only if kOne is a requirement for kTwo. If either key is not an element,
+	 * @return true if and only if kOne is a requirement for kTwo. 
+	 * If either key is not an element,
 	 * of the graph, return false.
 	 **/
 	public boolean isDependent (int kOne, int kTwo) {
 	}
 
 	/**
-	 * Creates a semi-deep clone of the DAGMap, by cloning the keys (vertices) but not the values.
+	 * Creates a semi-deep clone of the DAGMap, by cloning the keys (vertices) 
+	 * but not the values.
 	 * @return - A DAGMap that is equal to the map, but with cloned vertices
 	 **/
 	public Object clone() {
 		// return clonedMap;
 	}
 	
-	public void set ();
-
-}
-
-/**
- * DAGMap implementation of DirAcycGraph Interface
- */
-public static class DAGMap implements DirAcycGraph
-{
 	/**
-	 * Code here
+	 * Produces an iterator that is guaranteed to process the elements
+	 * in some topologically sorted order, where each call to next will 
+	 * return the next vertex. That is, the iterator will never return a dependent
+	 * vertex until all of the requirements of the vertex have been returned.
+	 * @return an iterator that will process the labels of the graph in
+	 * topologically sorted order.
+	 **/
+	public Iterator iterator() {
+		public boolean hasNext() {
+		}
+		
+		public next() {
+		}
+	}
+
+	/**
+	 *@param o - the object to be tested
+	 *@return true if and only this is equal to
+	 **/
+	public boolean equals(Object o) {
+	}
+
+	/** 
+	 *@return the set of vertices in the graph
+	 **/
+	public getKeySet() throws IllegalArgument {
+	}
+
+	/**
+	 *@param the vertex on which the returned set must be dependent
+	 *@return the set of vertices dependent on key
+	 *@exception IllegalArgumentException - if key is not a vertex of DAG
+	 **/
+	public getDependents(K key) throws IllegalArgument {
+	}
+
+	/**
+	 *@param key the vertex on which the returned set must meet the requirements
+	 *@return the set of vertices required for the key
+	 *@exception IllegalArgumentException if key is not a vertex of the DAG
+	 **/
+	public getRequirements(K key) throws IllegalArgument {
+	}
+
+	
+	/**
+	 *@return the width of the DAGMap
+	 **/
+	public int getWidth() {
+	}
+
+	/**
+	 *@return the length of the longest possible path in the DAGMap
+	 **/
+	public int getLongestPath(){ 
+	}
+
+	/**
+	 *@param source - the start vertex
+	 *@param sink - the end vertex
+	 *@return the maximum flow through the DAG
 	 */
+	public int getMaxFlow(int source, int sink) {
+	}
+
+	/**
+	 *@override toString in class Object
+	 *@return a String representation of the DAGMap
+	 */
+	public String toString() {
+	}
+		
+
 }
