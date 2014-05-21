@@ -5,7 +5,7 @@
  */
 public interface DAGMap<K,V> { 
 
-	/** @caleb
+	/** @reece
 	* Standard map operation:
 	* Adds the vertex key to the graph (with no edges) and maps key to value
 	* @param key the new vertex added to the graph
