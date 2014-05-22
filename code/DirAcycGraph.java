@@ -13,13 +13,38 @@ import java.util.Set;
  * DAGMap implementation of DirAcycGraph Interface
  */
 public static class DirAcycGraph implements DAGMap {
-	public void put(Key k, Value v) throws IllegalArgumentException {
+	
+	private int size; //variable - for size of DAGMap
+	
+	public void put(K key, V value) throws IllegalArgumentException {
 			if (k == null)
 				throw new IllegalArgumentException;
 			else
 				//???
 	}
 	
+	public K get(K key) throws IllegalArgument {
+		// remove this line once complete.
+		int i = 0;
+		while (i < size) {
+			
+			if (value[i] != null){
+				return values[i].get(k);
+			} else throw new IllegalArgument;
+			
+			i++;
+			
+			
+		}	
+	}
+	
+	public Set<K> getPredecessors(K key) {
+		// return the set of keys that are immediate requirements for given keys.
+	}
+	
+	public Set<K> getSuccessors(K key) {
+		// return the set of keys that are immediately dependent on the given key
+	}
 	public void addDependency (K kReq, K kDep ) {
 		//Reece Code
 	}
@@ -47,6 +72,7 @@ public static class DirAcycGraph implements DAGMap {
 	}
 
 	public void getKeySet() throws IllegalArgument {
+		return keys;
 	}
 
 	public void getDependents(K key) throws IllegalArgument {
@@ -74,6 +100,4 @@ public static class DirAcycGraph implements DAGMap {
 		public next() {
 		}
 	}
-		
-
 }
