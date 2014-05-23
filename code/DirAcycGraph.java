@@ -13,14 +13,13 @@ import java.util.Set;
  * DAGMap implementation of DirAcycGraph Interface
  */
 public static class DirAcycGraph implements DAGMap {
-	// the DAG implementation
-	/*public class DAG {
-		
-	}
-	*/
 	
 	private int size; //variable - for size of DAGMap
+	private Key rootKey; // root node
 	
+	/**
+	 * Constructor
+	 */
 	public DirAcycGraph () {
 		
 	}
@@ -87,7 +86,8 @@ public static class DirAcycGraph implements DAGMap {
 		}
 	}
 	
-	public boolean isEmpty() {// return verticesVariable == null; 
+	public boolean isEmpty() {
+		// return verticesVariable == null;
 	}
 
 	public boolean containsKey (K key) {
@@ -99,11 +99,13 @@ public static class DirAcycGraph implements DAGMap {
 	public boolean isDependent (int kOne, int kTwo) {
 	}
 
-	public Object clone() { // return clonedMap;
+	public Object clone() {
+		// return clonedMap;
 	}
 	
 
 	public boolean equals(Object o) {
+		
 	}
 
 	public Set<K> getKeySet() {
@@ -113,12 +115,6 @@ public static class DirAcycGraph implements DAGMap {
 			return i.keysInDAG;
 			i++:
 		}
-	}
-
-	public void getDependents(K key) throws IllegalArgument {
-	}
-
-	public getRequirements(K key) throws IllegalArgument {
 	}
 
 	public int getWidth() {
