@@ -118,4 +118,16 @@ public static class DirAcycGraph implements DAGMap {
 		public next() {
 		}
 	}
+	
+	private class Key {
+		int value;
+		Set<Object> successors;
+		Set<Object> predecessors;
+		
+		public Object Key (int v, Object s, Object p) {
+			value = v;
+			successor = s;
+			predecessor = p;
+		}
+	}
 }
