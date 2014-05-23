@@ -49,34 +49,42 @@ public static class DirAcycGraph implements DAGMap {
 	
 	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException {
 		// return the set of keys that are immediate requirements for given keys.
-    	if(!containsKey(k)) {
-    		return k.predecessors;
-    	} else {
-    		throw new IllegalArgumentException;
-    	}
+    		if(!containsKey(k)) {
+	    		return k.predecessors;
+	    	} else {
+	    		throw new IllegalArgumentException;
+		}
 	}
 	
 	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException {
 		// return the set of keys that are immediately dependent on the given key
 		if(!containsKey(k)) {
-    		return k.successors;
-    	} else {
-    		throw new IllegalArgumentException;
-    	}
+	    		return k.successors;
+	    	} else {
+	    		throw new IllegalArgumentException;
+	    	}
 	}
 	
-	public void addDependency (K kReq, K kDep ) throws IllegalArgumentException {
+	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException {
 		// check that no cycle is being created
 		if (!isDependent(kReq, kDep)) {
 			kReq.successors.add(kDep);
 			kDep.predecessors.add(k.Req);
 		} else {
-			// creates a cycle
+			// if it would create a cycle
 			throw new IllegalArgumentException;
 		}
 	}
 
-	public void removeDependency (K kReq, K kDep) {
+	public void removeDependency (Key kReq, Key kDep) {
+		if (isDependent(kReq, kDep)) {
+			for (Key i : kReq.successors)
+				if (i.equals(kDep))
+					// remove requir
+			for (Key j : kDep.predecessors)
+				if (i.equals(kReq))
+					// remove depend
+		}
 	}
 	
 	public boolean isEmpty() {// return verticesVariable == null; 
