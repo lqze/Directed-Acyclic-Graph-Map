@@ -119,15 +119,20 @@ public static class DirAcycGraph implements DAGMap {
 		}
 	}
 	
+	/**
+	 * private class Key represents each Key node
+	 *   on the map, storing a set of successors
+	 *   and predecessors
+	 */
 	private class Key {
 		int value;
 		Set<Object> successors;
 		Set<Object> predecessors;
 		
-		public Object Key (int v, Object s, Object p) {
+		public Object Key (int v) {
 			value = v;
-			successor = s;
-			predecessor = p;
+			successors = null;
+			predecessors = null;
 		}
 	}
 }
