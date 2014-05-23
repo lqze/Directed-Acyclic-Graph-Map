@@ -20,22 +20,19 @@ public static class DirAcycGraph implements DAGMap {
 	*/
 	
 	private int size; //variable - for size of DAGMap
-	private K key;
-	private V value;
 	
-	public DirAcycGraph(){
-		this.key = key;
-		this.value = value;
+	public DirAcycGraph () {
+		
 	}
 	
-	public void put(K key, V value) throws IllegalArgument {
+	public void put(Key k, V value) throws IllegalArgument {
 			if (k == null)
 				throw new IllegalArgument;
 			else
 				//???
 	}
 	
-	public K get(K key) throws IllegalArgument {
+	public Key get(Key k) throws IllegalArgument {
 		// remove this line once complete.
 		int i = 0;
 		while (i < size) {
@@ -50,19 +47,24 @@ public static class DirAcycGraph implements DAGMap {
 		}	
 	}
 	
-	public Set<K> getPredecessors(K key) throws IllegalArgumentException {
+	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException {
 		// return the set of keys that are immediate requirements for given keys.
-        	if(!containsKey(key)) {
-        		return key.predecessors;
-        	} else {
-        		throw new IllegalArgumentException;
-        	}
+    	if(!containsKey(k)) {
+    		return k.predecessors;
+    	} else {
+    		throw new IllegalArgumentException;
+    	}
 	}
 	
-	public Set<K> getSuccessors(K key) throws IllegalArgumentException {
+	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException {
 		// return the set of keys that are immediately dependent on the given key
-		return key.successors;
+		if(!containsKey(k)) {
+    		return k.successors;
+    	} else {
+    		throw new IllegalArgumentException;
+    	}
 	}
+	
 	public void addDependency (K kReq, K kDep ) throws IllegalArgumentException {
 		// check that no cycle is being created
 		if (!isDependent(kReq, kDep)) {
@@ -141,8 +143,8 @@ public static class DirAcycGraph implements DAGMap {
 		Set<Object> successors;
 		Set<Object> predecessors;
 		
-		public Object Key (int v) {
-			value = v;
+		public Object Key () {
+			value = null;
 			successors = null;
 			predecessors = null;
 		}
