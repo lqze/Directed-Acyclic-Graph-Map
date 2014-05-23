@@ -10,8 +10,8 @@ Project Burndown
 
 Saturday Night
 - CODE Write method pseudocode
-- CODE Implement method pseudocode into Java using libraries
-- CODE Document code as progression is made
+- CODE Implement method pseudocode into Java
+- CODE Document/comment code as progression is made
 
 Sunday
 - CODE Complete JavaDocs
