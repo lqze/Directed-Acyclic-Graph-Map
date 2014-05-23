@@ -87,13 +87,15 @@ public static class DirAcycGraph implements DAGMap {
 	}
 	
 	public boolean isEmpty() {
-		// return verticesVariable == null;
+		return key.size == null;
 	}
 
 	public boolean containsKey (K key) {
+		return key.contains(key)
 	}
 
-	public boolean containsValue (int val) {
+	public boolean containsValue (V value) {
+		return key.contains(value)
 	}
 
 	public boolean isDependent (int kOne, int kTwo) {
