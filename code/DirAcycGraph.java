@@ -21,14 +21,15 @@ public static class DirAcycGraph implements DAGMap {
 	 * Constructor
 	 */
 	public DirAcycGraph () {
-		
+
 	}
 	
 	public void put(Key k, V value) throws IllegalArgument {
-			if (k == null)
-				throw new IllegalArgument;
-			else
-				//???
+			if ( (k != null) || (!containsKey(k)) ) {
+				k.add;
+				value.add;
+			} else throw new IllegalArgument("Key contained in graph already, or key is null");
+				
 	}
 	
 	public Key get(Key k) throws IllegalArgument {
@@ -91,14 +92,15 @@ public static class DirAcycGraph implements DAGMap {
 	}
 
 	public boolean containsKey (K key) {
-		return key.contains(key)
+		return key.contains(key);
 	}
 
 	public boolean containsValue (V value) {
-		return key.contains(value)
+		return key.contains(value);
 	}
 
 	public boolean isDependent (int kOne, int kTwo) {
+		
 	}
 
 	public Object clone() {
