@@ -50,16 +50,28 @@ public static class DirAcycGraph implements DAGMap {
 		}	
 	}
 	
-	public Set<K> getPredecessors(K key) {
+	public Set<K> getPredecessors(K key) throws IllegalArgumentException {
 		// return the set of keys that are immediate requirements for given keys.
-        	if 
+        	if(!containsKey(key)) {
+        		return key.predecessors;
+        	} else {
+        		throw new IllegalArgumentException;
+        	}
 	}
 	
-	public Set<K> getSuccessors(K key) {
+	public Set<K> getSuccessors(K key) throws IllegalArgumentException {
 		// return the set of keys that are immediately dependent on the given key
+		return key.successors;
 	}
-	public void addDependency (K kReq, K kDep ) {
-		//Reece Code
+	public void addDependency (K kReq, K kDep ) throws IllegalArgumentException {
+		// check that no cycle is being created
+		if (!isDependent(kReq, kDep)) {
+			kReq.successors.add(kDep);
+			kDep.predecessors.add(k.Req);
+		} else {
+			// creates a cycle
+			throw new IllegalArgumentException;
+		}
 	}
 
 	public void removeDependency (K kReq, K kDep) {
