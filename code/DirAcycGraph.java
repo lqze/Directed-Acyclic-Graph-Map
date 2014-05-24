@@ -35,7 +35,7 @@ public static class DirAcycGraph implements DAGMap {
 				
 	}
 	
-	public Key get(Key k) throws IllegalArgumentException {
+	public V get(Key k) throws IllegalArgumentException {
 		// remove this line once complete.
 		int i = 0;
 		while (i < size) {	// iterate through 
@@ -48,6 +48,8 @@ public static class DirAcycGraph implements DAGMap {
 			
 			
 		}	
+		
+		return k.value;
 	}
 	
 	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException {
