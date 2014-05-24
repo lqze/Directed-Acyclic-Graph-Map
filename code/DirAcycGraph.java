@@ -1,6 +1,7 @@
 import CITS2200.*;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.IllegalArgumentException;
 
 /**
  * DAG Map Assignment Interface and Class
@@ -37,7 +38,7 @@ public static class DirAcycGraph implements DAGMap {
 	public Key get(Key k) throws IllegalArgumentException {
 		// remove this line once complete.
 		int i = 0;
-		while (i < size) {
+		while (i < k.size) {
 			
 			if (value[i] != null){
 				return values[i].get(k);
@@ -92,7 +93,7 @@ public static class DirAcycGraph implements DAGMap {
 	
 	public boolean isEmpty() {
 		// ifEmpty applies to the DAGMap
-		return rootNode == null;
+		return rootNode.size() == null;
 	}
 
 	public boolean containsKey (K key) {
