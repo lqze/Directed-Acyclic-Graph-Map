@@ -31,3 +31,7 @@ Tuesday (Crunch-time)
 - Complete JUnit Tests
 - REPORT Complete section of report detailing how results of tests compare to anticipated performance
 - REPORT Complete Test Report section (Instructions for running test cases, rationale/reasoning for tests)
+- 
+
+General note:
+Every time Reece uses the term 'flesh' or 'shell' remember to get a hot rusty needle and lance your eyes.
