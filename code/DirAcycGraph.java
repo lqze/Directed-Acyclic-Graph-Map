@@ -22,7 +22,7 @@ public static class DirAcycGraph implements DAGMap {
 	 */
 	private int size; // stores the number of nodes in DAGMap
 	private Key rootKey; // stores the root node
-	
+	private Set<Set<V>> value; // the set of values in the DAGMap
 	/**
 	 * Constructor Method
 	 */
@@ -41,7 +41,7 @@ public static class DirAcycGraph implements DAGMap {
 	}
 	
 	public Integer get(Key k) throws IllegalArgumentException {
-		// remove this line once complete.
+		
 		return k.value;
 	}
 	
@@ -91,7 +91,7 @@ public static class DirAcycGraph implements DAGMap {
 		return rootNode == null;
 	}
 
-	public boolean containsKey (K key) {
+	public boolean containsKey (Key k) {
 		// return key.contains(key); //check if key contains itself?
 		
 		//   check if DAGMap contains key
@@ -100,15 +100,16 @@ public static class DirAcycGraph implements DAGMap {
 		//   return true
 		
 		
-		/* 
-		for (k : keysInDAGMAP) {
-			if k.equals(keysInDAGMAP)
-				return k.equals(keysInDAGMAP)
+		
+		// Set<K> i = new Set<K>;
+		for (Key i : k) { // k is the k being tested
+			if k.equals(key) // key refers to the set of keys in the dagmap
+				return true;
 		}
-			 something like this?
+			
 			 
 		
-		*/
+		
 	}
 
 	public boolean containsValue (V value) {
@@ -118,6 +119,14 @@ public static class DirAcycGraph implements DAGMap {
 		//   and detect if this value is the same as
 		//   the value of each or any key
 		//   return true and break when value occurs
+		// Set<K> i = new Set<K>;
+		// Set<V> v = new Set<V>;
+		for (Key i : keys) {	
+			for (V v : value) {
+				if v.getValue(i) = value
+					return true;
+			}
+		}
 	}
 
 	public boolean isDependent (Key kReq, Key kDep) {
@@ -224,4 +233,7 @@ public static class DirAcycGraph implements DAGMap {
 			predecessors = null;
 		}
 	}
+
 }
+
+	
