@@ -12,7 +12,7 @@ public interface DAGMap<K,V> {
 	* @param value the label of the vertex
 	* @throws IllegalArgumentException if key is null, or is already in the graph
 	**/ 
-	public void put(K key, V value) throws IllegalArgumentException;
+	public void put(Key k, V value) throws IllegalArgumentException;
 
 	/** @caleb
 	 * Standard map operation
@@ -21,7 +21,7 @@ public interface DAGMap<K,V> {
 	 * @return the value corresponding to key
 	 * @throws IllegalArgumentException if they key does not exist in the DAG
 	 **/
-	 public V get(K key) throws IllegalArgumentException;
+	 public V get(Key k) throws IllegalArgumentException;
 
 
 	/** @reece
@@ -30,7 +30,7 @@ public interface DAGMap<K,V> {
 	*@param key the vertex to be removed
 	*@throws IllegalArgumentException if key is not a vertex in the graph
 	**/
-	public void remove(K key) throws IllegalArgumentException;
+	public void remove(Key k) throws IllegalArgumentException;
 
 
 	/** @reece
@@ -41,7 +41,7 @@ public interface DAGMap<K,V> {
 	*@throws IllegalArgumentException if either requirement or dependent are not 
 	*elements of the graph, or if the new edge would create a cycle
 	**/
-	public void addDependency(K requirement, K dependent) throws IllegalArgumentException;
+	public void addDependency(Key requirement, Key dependent) throws IllegalArgumentException;
 
 
 	/** @reece
@@ -51,7 +51,7 @@ public interface DAGMap<K,V> {
 	* @throws IllegalArgumentException if either requirement or dependent are not 
 	* vertices in the graph
 	**/
-	public void removeDependency(K requirement, K dependent) throws IllegalArgumentException;
+	public void removeDependency(Key requirement, Key dependent) throws IllegalArgumentException;
 
 
 	/** @reece
@@ -65,7 +65,7 @@ public interface DAGMap<K,V> {
 	* @param key the key to be tested
 	* @return true if and only if the key is a vertex of the graph
 	**/
-	public boolean containsKey(K key);
+	public boolean containsKey(Key k);
 
 	/** @caleb
 	* Tests whether there is some vertex in the graph that has a label equal to value
@@ -85,7 +85,7 @@ public interface DAGMap<K,V> {
 	* @return true if and only if key1 is a requirement for key2. If either key is not 
 	* an element of the graph, return false.
 	**/   
-	public boolean isDependent(K key1, K key2);
+	public boolean isDependent(Key k1, Key k2);
 
 	/** @reece
 	* Creates a semi-deep clone of the DAGMap, by cloning the keys (vertices) but not 
@@ -132,7 +132,7 @@ public interface DAGMap<K,V> {
 	* @return the set of vertices dependent on key
 	* @throws IllegalArgumentException if key is not a vertex of the DAG
 	**/ 
-	public Set<K> getSuccessors(K key) throws IllegalArgumentException;
+	public Set<K> getSuccessors(Key k) throws IllegalArgumentException;
 
 	/** @caleb
 	* Returns the set of keys that are immediate requirements for the given key 
@@ -142,7 +142,7 @@ public interface DAGMap<K,V> {
 	* @return the set of vertices required for key
 	* @throws IllegalArgumentException if key is not a vertex of the DAG
 	**/ 
-	public Set<K> getPredecessors(K key) throws IllegalArgumentException;
+	public Set<K> getPredecessors(Key k) throws IllegalArgumentException;
 
 	/**
 	* The width of a DAG is the minimum number of paths required to cover it
@@ -168,10 +168,10 @@ public interface DAGMap<K,V> {
 	 * Gets the maximum flow between two vertices in the DAG; The maximum flow is the 
 	 * maximum number of paths through the DAG that do not share a vertex.
 	 * @param source the start vertex
-	 * @param sink the end vertex
+	 * @param sinKey t end vertex
 	 * @return The maximum flow through the DAG
 	 **/
-	 public int getMaxFlow(K source, K sink);
+	 public int getMaxFlow(Key srce, Key sk);
 	
 	/**
 	* Returns a multi-line String representation of the DAGMap

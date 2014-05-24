@@ -35,7 +35,7 @@ public static class DirAcycGraph implements DAGMap {
 				
 	}
 	
-	public Key get(Key k) throws IllegalArgumentException {
+	public Integer get(Key k) throws IllegalArgumentException {
 		// remove this line once complete.
 		int i = 0;
 		while (i < k.size) {
