@@ -17,12 +17,14 @@ import java.util.IllegalArgumentException;
  
  
 public static class DirAcycGraph implements DAGMap {
+
 	/**
 	 * DAGMap properties
 	 */
 	private int size; // stores the number of nodes in DAGMap
 	private Key rootKey; // stores the root node
-	private Set<Set<V>> value; // the set of values in the DAGMap
+
+
 	/**
 	 * Constructor Method
 	 */
@@ -91,42 +93,46 @@ public static class DirAcycGraph implements DAGMap {
 		return rootNode == null;
 	}
 
-	public boolean containsKey (Key k) {
-		// return key.contains(key); //check if key contains itself?
-		
-		//   check if DAGMap contains key
-		//   traverse/explore the entire map of keys
-		//   and detect if this key is one of those
-		//   return true
-		
-		
-		
-		// Set<K> i = new Set<K>;
-		for (Key i : k) { // k is the k being tested
-			if k.equals(key) // key refers to the set of keys in the dagmap
-				return true;
+	public boolean containsKey (Key k) throws IllegalArgumentException {
+		if(k != null) {
+			compareKey(rootNode,k);
+		} else {
+			throw new IllegalArgumentException("Parameter does not exist in graph!");
 		}
-			
-			 
-		
-		
+	}
+
+	/**
+	 * A recursive method to compare two keys
+	 *   will also test against key's successors
+	 */
+	private boolean compareKey (Key curKey, Key searchKey) throws IllegalArgumentException {
+		if(curKey.equals(searchKey))	//test if this key is a match
+			return true;	// return true if match found
+		else {
+			// if not a match, look for all children and then test all children
+			if(getSuccessors(curKey) != null) {
+				// for each child
+				for(Key childKey : curKey.successors)
+					if (compareKey(childKey,searchKey))
+						return true;
+			} else {
+				// this key has no children and is no match
+				return false;
+			}
+		}
+		// method has exhausted all the children
+		return false;
 	}
 
 	public boolean containsValue (V value) {
-		
 		// check if DAGMap contains value
 		//   traverse/explore the entire map of keys
-		//   and detect if this value is the same as
-		//   the value of each or any key
-		//   return true and break when value occurs
-		// Set<K> i = new Set<K>;
-		// Set<V> v = new Set<V>;
-		for (Key i : keys) {	
-			for (V v : value) {
-				if v.getValue(i) = value
-					return true;
-			}
+		for (V curValue : setOfValues) {
+			if (curValue == value)
+				return true;
+				break;
 		}
+		return false;
 	}
 
 	public boolean isDependent (Key kReq, Key kDep) {
@@ -222,7 +228,7 @@ public static class DirAcycGraph implements DAGMap {
 	 *   on the map, storing a set of successors
 	 *   and predecessors
 	 */
-	private class Key {
+	private class Key extends Object {
 		int value;
 		Set<Object> successors;
 		Set<Object> predecessors;
