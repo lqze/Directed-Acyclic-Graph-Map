@@ -95,7 +95,7 @@ public static class DirAcycGraph implements DAGMap {
 
 	public boolean containsKey (Key k) throws IllegalArgumentException {
 		if(k != null) {
-			return compareKey(rootNode,k);
+			return compareKey(rootNode,k); //begin recursive algorithm
 		} else {
 			throw new IllegalArgumentException("Parameter does not exist in graph!");
 		}
@@ -106,14 +106,17 @@ public static class DirAcycGraph implements DAGMap {
 	 *   will also test against key's successors
 	 */
 	private boolean compareKey (Key curKey, Key searchKey) throws IllegalArgumentException {
-		if(curKey!=null && searchKey != null)
-			if(curKey.equals(searchKey)) return true;
-			else if (getSuccessors(curKey) != null)
-					for(Key childKey : curKey.successors)
-						if (compareKey(childKey,searchKey)) return true;	
-				else return false;
-			return false;
-		else throw new IllegalArgumentException("One or more parameters do not exist in graph!")
+		if (curKey != null && searchKey != null)	// if both keys exist (throw excep oth/wise)
+			if(curKey.equals(searchKey)) return true;	// check if the keys are the same
+			else {
+				if (getSuccessors(curKey) != null)		// <- otherwise check for children
+					for(Key childKey : curKey.successors)	// and then for each child
+						if (compareKey(childKey,searchKey)) return true;// call the function again
+				else return false; 	// no children, so return false
+			}
+			return false; // search hasn't returned true by end of recursion; return false
+		else
+			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
 	}
 
 	public boolean containsValue (V value) {
