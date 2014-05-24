@@ -4,42 +4,44 @@ import java.util.Set;
 
 /**
  * DAG Map Assignment Interface and Class
- * For CITS2200. Project 1.
+ *  CITS2200 Project
+ * 
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
  */
-
-/**
- * DAGMap implementation of DirAcycGraph Interface
- */
+ 
 public static class DirAcycGraph implements DAGMap {
-	
-	private int size; //variable - for size of DAGMap
-	private Key rootKey; // root node
+	/**
+	 * DAGMap properties
+	 */
+	private int size; // stores the number of nodes in DAGMap
+	private Key rootKey; // stores the root node
 	
 	/**
-	 * Constructor
+	 * Constructor Method
 	 */
 	public DirAcycGraph () {
-
+		// initialise empty graph
+		size = 0;
+		rootKey = null;
 	}
 	
-	public void put(Key k, V value) throws IllegalArgument {
+	public void put(Key k, V value) throws IllegalArgumentException {
 			if ( (k != null) || (!containsKey(k)) ) {
 				key.add(k);	
 				value.add(v);	
-			} else throw new IllegalArgument("Key contained in graph already, or key is null");
+			} else throw new IllegalArgumentException("Key contained in graph already, or key is null");
 				
 	}
 	
-	public Key get(Key k) throws IllegalArgument {
+	public Key get(Key k) throws IllegalArgumentException {
 		// remove this line once complete.
 		int i = 0;
 		while (i < size) {
 			
 			if (value[i] != null){
 				return values[i].get(k);
-			} else throw new IllegalArgument;
+			} else throw new IllegalArgumentException;
 			
 			i++;
 			
@@ -52,7 +54,7 @@ public static class DirAcycGraph implements DAGMap {
     		if(!containsKey(k)) {
 	    		return k.predecessors;
 	    	} else {
-	    		throw new IllegalArgumentException;
+	    		throw new IllegalArgumentException("Key not defined in graph");
 		}
 	}
 	
@@ -61,55 +63,72 @@ public static class DirAcycGraph implements DAGMap {
 		if(!containsKey(k)) {
 	    		return k.successors;
 	    	} else {
-	    		throw new IllegalArgumentException;
+	    		throw new IllegalArgumentException("Key not defined in graph");
 	    	}
 	}
 	
 	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException {
 		// check that no cycle is being created
 		if (!isDependent(kReq, kDep)) {
+			// update the Set<Object>s for both Keys
 			kReq.successors.add(kDep);
 			kDep.predecessors.add(k.Req);
-		} else {
+		} else 
 			// if it would create a cycle
-			throw new IllegalArgumentException;
-		}
+			throw new IllegalArgumentException("Proposed dependency would create illegal cycle");
 	}
 
 	public void removeDependency (Key kReq, Key kDep) {
 		if (isDependent(kReq, kDep)) {
 			for (Key i : kReq.successors)
 				if (i.equals(kDep))
-					// remove requir
+					// remove requir INCOMPLETE
 			for (Key j : kDep.predecessors)
 				if (i.equals(kReq))
-					// remove depend
-		}
+					// remove depend INCOMPLETE
+		} else
+			throw new IllegalArgumentException("No dependency found between given keys");
 	}
 	
 	public boolean isEmpty() {
-		return key.size == null // If the set<K> key is empty (returns null) - isEmpty is true;
+		// ifEmpty applies to the DAGMap
+		return rootNode == null;
 	}
 
 	public boolean containsKey (K key) {
-		return key.contains(key);
+		// return key.contains(key); //check if key contains itself?
+		
+		// check if DAGMap contains key
+		//   traverse/explore the entire map of keys
+		//   and detect if this key is one of those
+		//   return true
 	}
 
 	public boolean containsValue (V value) {
-		return key.contains(value);
+		
+		// check if DAGMap contains value
+		//   traverse/explore the entire map of keys
+		//   and detect if this value is the same as
+		//   the value of each or any key
+		//   return true and break when value occurs
 	}
 
-	public boolean isDependent (int kOne, int kTwo) {
-		
+	public boolean isDependent (int kReq, int kDep) {
+		// test if kDep is dependent on kReq,
+		//   this involves a->b->c, so check the
+		//   predecessors of every predecessor
+		//   (of every predecessor etc.) <- RECURSIVE
+		//   ALGORITHM FOR A RECURSIVE ADT
 	}
 
 	public Object clone() {
-		// return clonedMap;
+		// shallow clone,
+		//   copy all keys and dependencies?
 	}
 	
 
 	public boolean equals(Object o) {
-		
+		// check if this dagmap equals another dagmap (keys, values, relations)
 	}
 
 	public Set<K> getKeySet() {
