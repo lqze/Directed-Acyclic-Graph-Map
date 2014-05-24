@@ -26,8 +26,8 @@ public static class DirAcycGraph implements DAGMap {
 	
 	public void put(Key k, V value) throws IllegalArgument {
 			if ( (k != null) || (!containsKey(k)) ) {
-				k.add;
-				value.add;
+				key.add(k);	
+				value.add(v);	
 			} else throw new IllegalArgument("Key contained in graph already, or key is null");
 				
 	}
@@ -88,7 +88,7 @@ public static class DirAcycGraph implements DAGMap {
 	}
 	
 	public boolean isEmpty() {
-		return key.size == null;
+		return key.size == null // If the set<K> key is empty (returns null) - isEmpty is true;
 	}
 
 	public boolean containsKey (K key) {
