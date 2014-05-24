@@ -143,7 +143,33 @@ public static class DirAcycGraph implements DAGMap {
 	}
 
 	public int getWidth() {
+		return getAllPaths(rootNode);
 	}
+
+	/**
+	 * Recursive algorithm to get all the edges
+	 */
+	private int getAllPaths(Key node) {
+		//initialise a counter
+		int numberOfPaths = 0;
+
+		// if successors exist
+		if(node.successors != null) {
+
+			// for every successor
+			for (Key i : node.successors) {
+
+				// get the successors paths
+				numberOfPaths += getAllPaths(i);
+			}
+
+		} else
+			// if has no dependents, add 1 path
+			numberOfPaths++;
+
+		return numberOfPaths;
+	}
+
 
 	public int getLongestPath(){ 
 	}
