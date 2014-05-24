@@ -38,7 +38,7 @@ public static class DirAcycGraph implements DAGMap {
 	public Key get(Key k) throws IllegalArgumentException {
 		// remove this line once complete.
 		int i = 0;
-		while (i < k.size) {
+		while (i < size) {	// iterate through 
 			
 			if (value[i] != null){
 				return values[i].get(k);
@@ -93,16 +93,27 @@ public static class DirAcycGraph implements DAGMap {
 	
 	public boolean isEmpty() {
 		// ifEmpty applies to the DAGMap
-		return rootNode.size() == null;
+		return rootNode == null;
 	}
 
 	public boolean containsKey (K key) {
 		// return key.contains(key); //check if key contains itself?
 		
-		// check if DAGMap contains key
+		//   check if DAGMap contains key
 		//   traverse/explore the entire map of keys
 		//   and detect if this key is one of those
 		//   return true
+		
+		
+		/* 
+		for (k : keysInDAGMAP) {
+			if k.equals(keysInDAGMAP)
+				return k.equals(keysInDAGMAP)
+		}
+			 something like this?
+			 
+		
+		*/
 	}
 
 	public boolean containsValue (V value) {
