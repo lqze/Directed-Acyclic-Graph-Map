@@ -9,7 +9,12 @@ import java.util.IllegalArgumentException;
  * 
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
+ * 
+ * Terminology:
+ * Key/Node/Vertex 	-> interchangeable
+ * Label/Value 		-> interchangeable
  */
+ 
  
 public static class DirAcycGraph implements DAGMap {
 	/**
@@ -115,17 +120,31 @@ public static class DirAcycGraph implements DAGMap {
 		//   return true and break when value occurs
 	}
 
-	public boolean isDependent (int kReq, int kDep) {
+	public boolean isDependent (Key kReq, Key kDep) {
 		// test if kDep is dependent on kReq,
 		//   this involves a->b->c, so check the
 		//   predecessors of every predecessor
 		//   (of every predecessor etc.) <- RECURSIVE
 		//   ALGORITHM FOR A RECURSIVE ADT
+		
+		/* rather than starting from kDep, why not start from kReq
+		 * and check the successors. Do this for i < size of dagmap, or i != null
+		 */
+		
+		int i = 0;
+		while (i < size) {
+			if (((i.kReq.successor = kDep) || (i.kReq = kDep) || (i.kReq = rootNode) )
+			// if i.kReq = rootNode then it is the maximum parent.
+				return true;
+			isDependent(i.kReq.successor, kDep);
+			i++;
+		}
+	
 	}
 
 	public Object clone() {
 		// shallow clone,
-		//   copy all keys and dependencies?
+		// copy all keys and dependencies?
 	}
 	
 
@@ -174,7 +193,8 @@ public static class DirAcycGraph implements DAGMap {
 	public int getLongestPath(){ 
 	}
 
-	public int getMaxFlow(int source, int sink) {
+	public int getMaxFlow(Key source, Key sink) {
+	
 	}
 
 	public String toString() {
