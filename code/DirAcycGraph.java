@@ -204,11 +204,18 @@ public static class DirAcycGraph implements DAGMap {
 
 	public int getLongestPath(){ 
 	}
-
+	// return the number of paths that do not share a vertex from source to sink
 	public int getMaxFlow(Key source, Key sink) {
+		/* start at source
+		 * go to child vertex
+		 * mark as visited
+		 * repeat until vertex == sink
+		 if vertex == sink recursive call getMaxFlow()
+		 */
 	
 	}
-
+	// needs to output keys and values in DAGMap
+	// e.g. keys : values
 	public String toString() {
 	}
 
