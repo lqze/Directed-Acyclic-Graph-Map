@@ -220,8 +220,8 @@ public static class DirAcycGraph implements DAGMap {
 		
 		public Object Key () {
 			value = null;
-			successors = null;
-			predecessors = null;
+			successors = new Set<Object>;
+			predecessors = new Set<Object>;
 		}
 	}
 
