@@ -206,8 +206,9 @@ public static class DirAcycGraph implements DAGMap {
 	{
 		// do something 
 	}
-
+	// return the number of paths that do not share a vertex from source to sink
 	public int getMaxFlow(Key source, Key sink) {
+<<<<<<< HEAD
 		int maxFlow = 0;
 		Set<Key> flowGraph = new HashSet();
 
@@ -221,8 +222,18 @@ public static class DirAcycGraph implements DAGMap {
 			}
 			else return 1;
 		return maxFlow;
+=======
+		/* start at source
+		 * go to child vertex
+		 * mark as visited
+		 * repeat until vertex == sink
+		 if vertex == sink recursive call getMaxFlow()
+		 */
+	
+>>>>>>> FETCH_HEAD
 	}
-
+	// needs to output keys and values in DAGMap
+	// e.g. keys : values
 	public String toString() {
 	}
 
