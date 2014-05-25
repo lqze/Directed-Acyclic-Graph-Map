@@ -202,11 +202,25 @@ public static class DirAcycGraph implements DAGMap {
 	}
 
 
-	public int getLongestPath(){ 
+	public int getLongestPath()
+	{
+		// do something 
 	}
 
 	public int getMaxFlow(Key source, Key sink) {
-	
+		int maxFlow = 0;
+		Set<Key> flowGraph = new HashSet();
+
+		for(Key currentParent : getPredecessors(sink))
+			if(isDependent(currentParent, source) &&
+				!flowGraph.contains(currentParent) &&
+				!getSuccessors(currentParent).contains(source))
+			{
+				flowGraph.add(currentParent);
+				maxFlow += getMaxFlow(source, currentParent);
+			}
+			else return 1;
+		return maxFlow;
 	}
 
 	public String toString() {
