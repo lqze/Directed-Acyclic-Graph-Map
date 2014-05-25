@@ -34,122 +34,107 @@ public static class DirAcycGraph implements DAGMap {
 		rootKey = null;
 	}
 	
-	public void put(Key k, V value) throws IllegalArgumentException {
-			if ( (k != null) || (!containsKey(k)) ) {
-				key.add(k);	
-				value.add(v);	
-			} else throw new IllegalArgumentException("Key contained in graph already, or key is null");
-				
-	}
-	
-	public Integer get(Key k) throws IllegalArgumentException {
-		
-		return k.value;
-	}
-	
-	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException {
-		// return the set of keys that are immediate requirements for given keys.
-    		if(!containsKey(k)) {
-	    		return k.predecessors;
-	    	} else {
-	    		throw new IllegalArgumentException("Key not defined in graph");
+	public void put(Key newKey, V newValue) throws IllegalArgumentException
+	{
+		if (!containsKey(k))
+		{
+			Key newKey = new Key;	
+			k.value = newValue;
 		}
+		else
+			throw new IllegalArgumentException("Key contained in graph already, or key is null");
 	}
 	
-	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException {
-		// return the set of keys that are immediately dependent on the given key
-		if(!containsKey(k)) {
-	    		return k.successors;
-	    	} else {
-	    		throw new IllegalArgumentException("Key not defined in graph");
-	    	}
+	public V get(Key k) throws IllegalArgumentException
+	{
+		if(containsKey(k))
+			return k.value;
+		else
+			throw new IllegalArgumentException("Key not defined in graph");
 	}
 	
-	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException {
+	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
+	{
+		if(containsKey(k))
+			return k.predecessors;
+    	else
+    		throw new IllegalArgumentException("Key not defined in graph");
+	}
+	
+	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException
+	{
+		if(containsKey(k))
+			return k.successors;
+    	else
+    		throw new IllegalArgumentException("Key not defined in graph");
+	}
+	
+	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException
+	{
 		// check that no cycle is being created
-		if (!isDependent(kReq, kDep)) {
+		if (!isDependent(kReq, kDep))
+		{
 			// update the Set<Object>s for both Keys
 			kReq.successors.add(kDep);
 			kDep.predecessors.add(k.Req);
-		} else 
+		}
+		else 
 			// if it would create a cycle
 			throw new IllegalArgumentException("Proposed dependency would create illegal cycle");
 	}
 
-	public void removeDependency (Key kReq, Key kDep) {
-		if (isDependent(kReq, kDep)) {
-			for (Key i : kReq.successors)
-				if (i.equals(kDep))
-					// remove requir INCOMPLETE
-			for (Key j : kDep.predecessors)
-				if (i.equals(kReq))
-					// remove depend INCOMPLETE
-		} else
+	public void removeDependency (Key kReq, Key kDep)
+	{
+		if (isDependent(kReq, kDep))
+		{
+			for (Key node : kReq.successors)
+				if (node.equals(kDep))
+					kReq.successors.remove(node);
+
+			for (Key node : kDep.predecessors)
+				if (node.equals(kReq))
+					kDep.predecessors.remove(node);
+		}
+		else
 			throw new IllegalArgumentException("No dependency found between given keys");
 	}
 	
-	public boolean isEmpty() {
-		// ifEmpty applies to the DAGMap
+	public boolean isEmpty()
+	{
 		return rootNode == null;
 	}
 
-	public boolean containsKey (Key k) throws IllegalArgumentException {
-		if(k != null) {
-			return compareKey(rootNode,k); //begin recursive algorithm
-		} else {
-			throw new IllegalArgumentException("Parameter does not exist in graph!");
-		}
+	public boolean containsKey (Key k)
+	{
+		return k != null;
 	}
 
-	/**
-	 * A recursive method to compare two keys
-	 *   will also test against key's successors
-	 */
-	private boolean compareKey (Key curKey, Key searchKey) throws IllegalArgumentException {
-		if (curKey != null && searchKey != null)	// if both keys exist (throw excep oth/wise)
-			if(curKey.equals(searchKey)) return true;	// check if the keys are the same
-			else {
-				if (getSuccessors(curKey) != null)		// <- otherwise check for children
-					for(Key childKey : curKey.successors)	// and then for each child
-						if (compareKey(childKey,searchKey)) return true;// call the function again
-				else return false; 	// no children, so return false
-			}
-			return false; // search hasn't returned true by end of recursion; return false
-		else
-			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
-	}
-
-	public boolean containsValue (V value) {
+	public boolean containsValue (V value)
+	{
 		// check if DAGMap contains value
 		//   traverse/explore the entire map of keys
-		for (V curValue : setOfValues) {
-			if (curValue == value)
-				return true;
-				break;
-		}
-		return false;
 	}
 
-	public boolean isDependent (Key kReq, Key kDep) {
-		// test if kDep is dependent on kReq,
-		//   this involves a->b->c, so check the
-		//   predecessors of every predecessor
-		//   (of every predecessor etc.) <- RECURSIVE
-		//   ALGORITHM FOR A RECURSIVE ADT
-		
-		/* rather than starting from kDep, why not start from kReq
-		 * and check the successors. Do this for i < size of dagmap, or i != null
-		 */
-		
-		int i = 0;
-		while (i < size) {
-			if (((i.kReq.successor = kDep) || (i.kReq = kDep) || (i.kReq = rootNode) )
-			// if i.kReq = rootNode then it is the maximum parent.
+	public boolean isDependent (Key haystackKey, Key needleKey) throws IllegalArgumentException
+	{
+		if (haystackKey != null && needleKey != null)
+		{
+			if(haystackKey.equals(needleKey))
 				return true;
-			isDependent(i.kReq.successor, kDep);
-			i++;
+			else
+			{
+				if (getSuccessors(haystackKey) != null)
+				{
+					for(Key childKey : haystackKey.successors)
+						if (compareKey(childKey,needleKey) return true;
+				}
+				else
+					return false;
+			}
+			return false;
 		}
-	
+		else
+			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
 	}
 
 	public Object clone() {
