@@ -52,6 +52,11 @@ public static class DirAcycGraph implements DAGMap {
 		else
 			throw new IllegalArgumentException("Key not defined in graph");
 	}
+
+	public void remove(Key k) throws IllegalArgumentException
+	{
+		// do something
+	}
 	
 	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
 	{
@@ -125,8 +130,8 @@ public static class DirAcycGraph implements DAGMap {
 			{
 				if (getSuccessors(haystackKey) != null)
 				{
-					for(Key childKey : haystackKey.successors)
-						if (compareKey(childKey,needleKey) return true;
+					for(Key childKey : getSuccessors(haystackKey))
+						if (isDependent(childKey,needleKey) return true;
 				}
 				else
 					return false;
