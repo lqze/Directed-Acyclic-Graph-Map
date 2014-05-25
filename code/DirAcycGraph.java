@@ -9,10 +9,6 @@ import java.util.IllegalArgumentException;
  * 
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
- * 
- * Terminology:
- * Key/Node/Vertex 	-> interchangeable
- * Label/Value 		-> interchangeable
  */
  
  
@@ -22,8 +18,8 @@ public static class DirAcycGraph implements DAGMap {
 	 * DAGMap properties
 	 */
 	private int size; // stores the number of nodes in DAGMap
-	private Key rootKey; // stores the root node
-
+	private Set<Key> keySet;	// all nodes in graph
+	private Set<Key> subGraphs;	// all nodes with no requirement nodes
 
 	/**
 	 * Constructor Method
@@ -32,6 +28,7 @@ public static class DirAcycGraph implements DAGMap {
 		// initialise empty graph
 		size = 0;
 		rootKey = null;
+		keySet = new Set<Key>;
 	}
 	
 	public void put(Key newKey, V newValue) throws IllegalArgumentException
@@ -40,6 +37,8 @@ public static class DirAcycGraph implements DAGMap {
 		{
 			Key newKey = new Key;	
 			k.value = newValue;
+			keySet.add(k);
+			subGraphs.add(k);
 		}
 		else
 			throw new IllegalArgumentException("Key contained in graph already, or key is null");
@@ -55,7 +54,15 @@ public static class DirAcycGraph implements DAGMap {
 
 	public void remove(Key k) throws IllegalArgumentException
 	{
-		// do something
+		if(containsKey(k))
+		{
+			// get all edges, removeEdges first
+			// then remove key
+			keySet.remove(k);
+			k.predecessors//remove from
+			k.successors//remove from
+		} else
+			throw new IllegalArgumentException("Key not defined in graph");
 	}
 	
 	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
@@ -82,6 +89,9 @@ public static class DirAcycGraph implements DAGMap {
 			// update the Set<Object>s for both Keys
 			kReq.successors.add(kDep);
 			kDep.predecessors.add(k.Req);
+
+			if(subGraphs.contains(kDep))
+				subGraphs.remove(kDep);
 		}
 		else 
 			// if it would create a cycle
@@ -92,10 +102,12 @@ public static class DirAcycGraph implements DAGMap {
 	{
 		if (isDependent(kReq, kDep))
 		{
+			// remove from set of dependencies
 			for (Key node : kReq.successors)
 				if (node.equals(kDep))
 					kReq.successors.remove(node);
 
+			// remove from set of requirements
 			for (Key node : kDep.predecessors)
 				if (node.equals(kReq))
 					kDep.predecessors.remove(node);
@@ -176,10 +188,10 @@ public static class DirAcycGraph implements DAGMap {
 		if(node.successors != null) {
 
 			// for every successor
-			for (Key i : node.successors) {
+			for (Key childKey : getSuccessors(node)) {
 
 				// get the successors paths
-				numberOfPaths += getAllPaths(i);
+				numberOfPaths += getAllPaths(childKey);
 			}
 
 		} else
@@ -215,14 +227,14 @@ public static class DirAcycGraph implements DAGMap {
 	 */
 	private class Key extends Object {
 		int value;
-		Set<Object> successors;
-		Set<Object> predecessors;
+		Set successors;
+		Set predecessors;
 		
 		public Object Key () {
 			value = null;
-			successors = new Set<Object>;
-			predecessors = new Set<Object>;
-		}
+			successors = new HashSet();
+			predecessors = new HashSet();
+		} 
 	}
 
 }
