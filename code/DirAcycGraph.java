@@ -174,7 +174,10 @@ public static class DirAcycGraph implements DAGMap {
 	}
 
 	public int getWidth() {
-		return getAllPaths(rootNode);
+		Set graveyard = HashSet();
+		// hit as many nodes in a row (put them in graveyard)
+		// keep hitting as many alive nodes in a row
+		// until all done
 	}
 
 	/**
@@ -206,7 +209,7 @@ public static class DirAcycGraph implements DAGMap {
 	{
 		// do something 
 	}
-	
+
 	// return the number of paths that do not share a vertex from source to sink
 	public int getMaxFlow(Key source, Key sink) {
 		int maxFlow = 0;
@@ -227,9 +230,9 @@ public static class DirAcycGraph implements DAGMap {
 	// needs to output keys and values in DAGMap
 	// e.g. keys : values
 	public String toString() {
-	}
+	} 
 
-	public Iterator iterator() {
+	public Iterator iterator() {                                                                                   
 		public boolean hasNext() {
 		}
 		
