@@ -1,4 +1,7 @@
+
 import CITS2200.*;
+import java.util.*; //For Map, Set
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,8 +31,6 @@ public class TestSimpleDAG extends DirAcycGraph {
 	public void setup() {
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
 		rootKey = null;
-		Set<Key> keySet = new HashSet<Key>();
-		
 		dm.put(A, "one");
 		dm.put(B, "bee");
 		dm.put(C, "hello");
@@ -46,12 +47,16 @@ public class TestSimpleDAG extends DirAcycGraph {
 		assertEquals("Failure - value for A is incorrect", k.get(A), "one");
 	}
 	/** 
-	 * testRemove tests that for any given vertex, it is successfully removed
-	 * and the vertex's no longer has a dependent or requirement.
+	 * Tests that for any given vertex, it is successfully removed
+	 * and that it is no longer a requirement and/or dependent vertex
 	 */
 	@Test
 	public void testRemove(expected=IllegalArgumentException.class)
 	{
+		assertEquals("Failure - Key was not successfully removed", contains(k), !contains(k));
+		assertEquals("Failure - Key is still part of successors", successors.contains(k),!successors.contains(k));
+		assertEquals("Failure - Key is still part of predecessors", predecessors.contains(k), !predecessors.contains(k));
+		
 	/*	if(containsKey(k))
 		{
 			// get all edges, removeEdges first
@@ -63,18 +68,36 @@ public class TestSimpleDAG extends DirAcycGraph {
 	*/
 		
 	}
+<<<<<<< HEAD:code/TestSimpleDAG.java
 	
 	// The following methods still need test cases
 
 	/**public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
+=======
+	/**
+	 * Test to retrieve all the predecessors of a given key.
+	 * The expected case is all the predecessors of the given key.
+	 */
+	@Test
+	public void testGetPredecessors(expected=IllegalArgumentException.class)
+>>>>>>> FETCH_HEAD:code/test/TestSimpleDAG.java
 	{
-		if(containsKey(k))
-			return k.predecessors;
-    	else
-    		throw new IllegalArgumentException("Key not defined in graph");
+		boolean[] expected;
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		Set<Key> predKeys = new HashSet<Key>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.addDepedency(A, D);
+		dm.addDepedency(C, D);
+		predKeys.add(A);
+		predKeys.add(D);
+		expecting = ( (containsAll(predKeys)) == (containsAll(getPredecessors(dm)) ) );
+		assertEquals("Failure - not all predecessors wereretrieved", expecting, !expecting);
 	}
 	
-	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException
+	public void testGetSuccessors(expected=IllegalArgumentException.class)
 	{
 		if(containsKey(k))
 			return k.successors;
