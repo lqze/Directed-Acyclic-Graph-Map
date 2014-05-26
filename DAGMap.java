@@ -205,6 +205,8 @@ public static class DirAcycGraph implements DAGMap {
 	 * @param kDep - the vertex at the end of the edge
 	 **/	
 	public void addDependency (K kReq, K kDep ){
+		if (!notCycle) {
+		}
 	}
 
 	/**
@@ -229,6 +231,7 @@ public static class DirAcycGraph implements DAGMap {
 	 * @return - true if and only if the key is a vertex of the graph
 	 **/
 	public boolean containsKey (K key) {
+		if( key != null) 
 	}
 
 	/** 
