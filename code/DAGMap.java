@@ -5,7 +5,7 @@
  */
 public interface DAGMap<K,V> { 
 
-	/** @reece
+	/**
 	* Standard map operation:
 	* Adds the vertex key to the graph (with no edges) and maps key to value
 	* @param key the new vertex added to the graph
@@ -14,7 +14,7 @@ public interface DAGMap<K,V> {
 	**/ 
 	public void put(Key k, V value) throws IllegalArgumentException;
 
-	/** @caleb
+	/**
 	 * Standard map operation
 	 * Gives the value corresponding to the given key
 	 * @param key the vertex to return the valu
@@ -24,7 +24,7 @@ public interface DAGMap<K,V> {
 	 public V get(Key k) throws IllegalArgumentException;
 
 
-	/** @reece
+	/**
 	* Standard map operation:
 	* Removes the vertex key from the graph, as well as its label, and any associated edges
 	*@param key the vertex to be removed
@@ -33,7 +33,7 @@ public interface DAGMap<K,V> {
 	public void remove(Key k) throws IllegalArgumentException;
 
 
-	/** @reece
+	/**
 	* DAG operation: adds a directed edge between two vertices, provided 
 	* that no cycle is created
 	*@param requirement the vertex at the start of the edge
@@ -44,7 +44,7 @@ public interface DAGMap<K,V> {
 	public void addDependency(Key requirement, Key dependent) throws IllegalArgumentException;
 
 
-	/** @reece
+	/**
 	* DAG operation: removes an edge between two vertices, if it exists
 	* @param requirement the vertex at the start of the edge
 	* @param dependent the vertex at the end of the edge
@@ -54,20 +54,20 @@ public interface DAGMap<K,V> {
 	public void removeDependency(Key requirement, Key dependent) throws IllegalArgumentException;
 
 
-	/** @reece
+	/**
 	* isEmpty tests to confirm there are no vertices in the graph
 	* @return true if graph does not contain any vertices, false otherwise
 	**/
 	public boolean isEmpty();
 
-	/** @reece
+	/**
 	* Tests whether a key is defined in the map, using the equals method
 	* @param key the key to be tested
 	* @return true if and only if the key is a vertex of the graph
 	**/
 	public boolean containsKey(Key k);
 
-	/** @caleb
+	/**
 	* Tests whether there is some vertex in the graph that has a label equal to value
 	* @param value the value to be tested
 	* @return true if and only if there is at least one vertex in the graph with a 
@@ -75,7 +75,7 @@ public interface DAGMap<K,V> {
 	**/
 	public boolean containsValue(V value);
 
-	/** @reece
+	/**
 	* Tests whether key1 is a requirement for key2 (or is key2 is dependent on key1)
 	* This is defined by either there being an edge from key1 to key2, 
 	* or there being some other vertex v that is dependent on key1, where there is an 
@@ -87,7 +87,7 @@ public interface DAGMap<K,V> {
 	**/   
 	public boolean isDependent(Key k1, Key k2);
 
-	/** @reece
+	/**
 	* Creates a semi-deep clone of the DAGMap, by cloning the keys (vertices) but not 
 	* the values.
 	* @return A DAGMap that is equal to this map, but with cloned vertices
@@ -105,7 +105,7 @@ public interface DAGMap<K,V> {
 	**/ 
 	public Iterator<K> iterator();
 
-	/** @caleb
+	/**
 	* Tests whether this is equal to some object: The Object must be an implementation of 
 	* DAGMap 
 	* and the two DAGMaps are equal if they have equal sets of keys; equal sets of values;
@@ -119,13 +119,13 @@ public interface DAGMap<K,V> {
 	**/
 	public boolean equals(Object o);
 
-	/** @caleb
+	/**
 	*Returns the set of vertices in the DAG  
 	*@return the set of vertices in the graph
 	**/ 
 	public Set<K> getKeySet();
 
-	/** @caleb
+	/**
 	* Returns the set of keys that are immediately dependent on the given key 
 	* (that is, there are edges from key to exactly the vertices in the returned set)
 	* @param key the vertex on which the returned set must be dependent
@@ -134,7 +134,7 @@ public interface DAGMap<K,V> {
 	**/ 
 	public Set<K> getSuccessors(Key k) throws IllegalArgumentException;
 
-	/** @caleb
+	/**
 	* Returns the set of keys that are immediate requirements for the given key 
 	* (that is, there is an edge from every vertex, and only these vertices, in the 
 	* returned set to key)

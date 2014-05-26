@@ -116,20 +116,18 @@ public static class DirAcycGraph implements DAGMap {
 			throw new IllegalArgumentException("No dependency found between given keys");
 	}
 	
-	public boolean isEmpty()
-	{
-		return rootNode == null;
-	}
+	public boolean isEmpty() { return rootNode == null; }
 
-	public boolean containsKey (Key k)
-	{
-		return k != null;
-	}
+	public boolean containsKey (Key k) { return k != null; }
 
 	public boolean containsValue (V value)
 	{
 		// check if DAGMap contains value
-		//   traverse/explore the entire map of keys
+		//   traverse/explore the entire map of key
+		for(Key curKey : getKeySet)
+			if (curKey.value == value)
+				return true;
+		return false; // if no true is returned after searching through graph
 	}
 
 	public boolean isDependent (Key haystackKey, Key needleKey) throws IllegalArgumentException
