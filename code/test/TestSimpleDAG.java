@@ -1,5 +1,12 @@
 import CITS2200.*;
-import java.util.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * DAG Map Assignment Interface and Class
@@ -7,58 +14,45 @@ import java.util.*;
  * 
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
+ * 
+ * Testing class. JUnit tests will be run on the
+ * simple methods.
  */
  
- 
-public static class TestDirAcycGraph implements DAGMap {
-
+@RunWith(JUnit4.class) 
+public class TestSimpleDAG extends TestDirAcycGraph {
 	/**
-	 * DAGMap properties
+	 * A setup method for the Test methods
 	 */
-	private int size; // stores the number of nodes in DAGMap
-	private Set<Key> keySet;	// all nodes in graph
-	private Set<Key> subGraphs;	// all nodes with no requirement nodes
-
-	/**
-	 * Constructor Method
-	 */
-	public DirAcycGraph () {
-		// initialise empty graph
-		size = 0;
+	@Before
+	public void setup() {
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
 		rootKey = null;
-		keySet = new Set<Key>;
+		Set<Key> keySet = new HashSet<Key>();
+		
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.put(E, "vil");
 	}
-	
-	public static void main(String[] args) {
-		DAGMap<K,V> dm = new DAGMap<Key, Value>;
+	/** 
+	 * Tests that the corresponding value to a given key is returned correctly.
+	 * e.g.: key A should return the value "one".
+	 */
+	@Test
+	public void testGet(expected=IllegalArgumentException.class) {
+		Key k = new Key;
+		assertEquals("Failure - value for A is incorrect", k.get(A), "one");
 	}
-	@Test // testing the put method
-	public void testPut(Key newKey, V newValue) throws IllegalArgumentException
+	/** 
+	 * testRemove tests that for any given vertex, it is successfully removed
+	 * and the vertex's no longer has a dependent or requirement.
+	 */
+	@Test
+	public void testRemove(expected=IllegalArgumentException.class)
 	{
-		if (!containsKey(k))
-		{
-			Key newKey = new Key;	
-			k.value = newValue;
-			keySet.add(k);
-			subGraphs.add(k);
-		}
-		else
-			throw new IllegalArgumentException("Key contained in graph already, or key is null");
-			
-		assertEquals
-	}
-	
-	public V get(Key k) throws IllegalArgumentException
-	{
-		if(containsKey(k))
-			return k.value;
-		else
-			throw new IllegalArgumentException("Key not defined in graph");
-	}
-
-	public void remove(Key k) throws IllegalArgumentException
-	{
-		if(containsKey(k))
+	/*	if(containsKey(k))
 		{
 			// get all edges, removeEdges first
 			// then remove key
@@ -66,7 +60,8 @@ public static class TestDirAcycGraph implements DAGMap {
 			k.predecessors//remove from
 			k.successors//remove from
 		} else
-			throw new IllegalArgumentException("Key not defined in graph");
+	*/
+		
 	}
 	
 	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
