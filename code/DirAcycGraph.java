@@ -229,12 +229,22 @@ public static class DirAcycGraph implements DAGMap {
 	// e.g. keys : values
 	public String toString() {
 	} 
-
-	public Iterator iterator() {                                                                                   
+	
+	// return an ordering of the nodes in the graph such that
+	// for each node v, all of the ancestors appear before v
+	// itself in the topological ordering.
+	public Iterator<Key> iterator() {	// or <K>, instead of <Key> *according to interface*
+	
+		Set<Key> visited = new HashSet<Key>();
+		Set<Key> sortedNodes = new HashSet<Key>();
+		// a DFS to perform on the graph.
+		private static <Key> void traverseGraph (rootKey, <Key> visited, <Key> sortedNodes)
+		
 		public boolean hasNext() {
 		}
 		
 		public next() {
+			return getKeySet(sortedNodes);
 		}
 	}
 	
