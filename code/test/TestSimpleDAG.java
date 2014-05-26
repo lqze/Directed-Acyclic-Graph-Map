@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
  */
  
 @RunWith(JUnit4.class) 
-public class TestSimpleDAG extends DirAcycGraph {
+public class TestSimpleDAG{
 	/**
 	 * A setup method for the Test methods
 	 */
@@ -87,55 +87,59 @@ public class TestSimpleDAG extends DirAcycGraph {
 		dm.addDepedency(C, D);
 		predKeys.add(A);
 		predKeys.add(D);
-		expecting = ( (containsAll(predKeys)) == (containsAll(getPredecessors(dm)) ) );
+		expecting = ( (containsAll(predKeys)) == (containsAll(getPredecessors(dm.keys)) ) );
 		assertEquals("Failure - not all predecessors wereretrieved", expecting, !expecting);
 	}
 	
 	public void testGetSuccessors(expected=IllegalArgumentException.class)
 	{
-		if(containsKey(k))
-			return k.successors;
-    	else
-    		throw new IllegalArgumentException("Key not defined in graph");
+		boolean[] expected;
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		Set<Key> succKeys = new HashSet<Key>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.addDependency(A, C);
+		dm.addDependency(A, B);
+		dm.addDependency(B, D);
+		dm.addDependency(C, E);
+		succKeys.add(B);
+		succKeys.add(C);
+		expecting = ( (containsAll(succKeys)) == (containsAll(getSuccessors(dm.keys)) ) );
+		assertEquals("Failure - not all successors were retrieved", expecting, !expecting);
 	}
 	
-	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException
+	public void testAddDependency (expected=IllegalArgumentException.class)
 	{
-		// check that no cycle is being created
-		if (!isDependent(kReq, kDep))
-		{
-			// update the Set<Object>s for both Keys
-			kReq.successors.add(kDep);
-			kDep.predecessors.add(k.Req);
-
-			if(subGraphs.contains(kDep))
-				subGraphs.remove(kDep);
-		}
-		else 
-			// if it would create a cycle
-			throw new IllegalArgumentException("Proposed dependency would create illegal cycle");
+		boolean[] expected;
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		Set<Key> succKeys = new HashSet<Key>();
+		Set<Key> predKeys = new HashSet<Key>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.addDependency(A, C);
+		dm.addDependency(A, B);
+		dm.addDependency(B, D);
+		dm.addDependency(C, E);
+		succKeys.add(B);
+		succKeys.add(C);
+		predKeys.add(A);
+		predKeys.add(D);
+		
+		assertEquals("Fail - incorrect child||parents returned)
 	}
 
-	public void removeDependency (Key kReq, Key kDep)
+	public void removeDependency (expected=IllegalArgumentException.class)
 	{
-		if (isDependent(kReq, kDep))
-		{
-			// remove from set of dependencies
-			for (Key node : kReq.successors)
-				if (node.equals(kDep))
-					kReq.successors.remove(node);
-
-			// remove from set of requirements
-			for (Key node : kDep.predecessors)
-				if (node.equals(kReq))
-					kDep.predecessors.remove(node);
-		}
-		else
-			throw new IllegalArgumentException("No dependency found between given keys");
+	//..	
 	}
 	
 	public boolean isEmpty() { return rootNode == null; }
-
+	/*
+	
 	public boolean containsKey (Key k) { return k != null; }
 
 	public boolean containsValue (V value)
@@ -169,5 +173,6 @@ public class TestSimpleDAG extends DirAcycGraph {
 		else
 			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
 	}
-	**/
+	
+	*/
 }
