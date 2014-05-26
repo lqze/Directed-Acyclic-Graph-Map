@@ -68,19 +68,13 @@ public class TestSimpleDAG extends DirAcycGraph {
 	*/
 		
 	}
-<<<<<<< HEAD:code/TestSimpleDAG.java
-	
-	// The following methods still need test cases
-
-	/**public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
-=======
+    
 	/**
 	 * Test to retrieve all the predecessors of a given key.
 	 * The expected case is all the predecessors of the given key.
 	 */
 	@Test
 	public void testGetPredecessors(expected=IllegalArgumentException.class)
->>>>>>> FETCH_HEAD:code/test/TestSimpleDAG.java
 	{
 		boolean[] expected;
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
