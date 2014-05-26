@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * DAG Map Assignment Interface and Class
+ * DAG Map Assignment Test Cases
  *  CITS2200 Project
  * 
  * @author Caleb Fetzer 21384976	
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
  */
  
 @RunWith(JUnit4.class) 
-public class TestSimpleDAG extends TestDirAcycGraph {
+public class TestSimpleDAG extends DirAcycGraph {
 	/**
 	 * A setup method for the Test methods
 	 */
@@ -64,7 +64,9 @@ public class TestSimpleDAG extends TestDirAcycGraph {
 		
 	}
 	
-	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
+	// The following methods still need test cases
+
+	/**public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
 	{
 		if(containsKey(k))
 			return k.predecessors;
@@ -150,4 +152,5 @@ public class TestSimpleDAG extends TestDirAcycGraph {
 		else
 			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
 	}
+	**/
 }
