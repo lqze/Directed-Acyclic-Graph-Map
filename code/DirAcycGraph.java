@@ -79,7 +79,7 @@ public class DirAcycGraph<Value> {
 	public void addDependency (Key kReq, Key kDep ) throws IllegalArgumentException
 	{
 		// check that no cycle is being created
-		if (!isDependent(kReq, kDep))
+		if (!isDependent(kDep, kReq))
 		{
 			// update the Set<Object>s for both Keys
 			kReq.successors.add(kDep);
@@ -178,26 +178,28 @@ public class DirAcycGraph<Value> {
 		int curMax = 0;
 		int curCount = 0;
 		for(Key eachKey : keySet) {
-			curCount = getPathToTop(eachKey,0);
+			curCount = getPathToTop(eachKey,0,0);
 			if (curCount>curMax) curMax=curCount;
 		}
 		return curMax;
 	}
 
-	public int getPathToTop(Key bottomNode, int currentTop)
+	public int getPathToTop(Key bottomNode, int currentVal, int currentTop)
 	{
-		int 	levelMax = 0;
+		int i=0;
+		int result = 0;
 		if(!getPredecessors(bottomNode).isEmpty())
 		{
 			for(Key eachParent : getPredecessors(bottomNode))
 			{
-				int result = getPathToTop(eachParent,currentTop++);
-				if(result>levelMax) levelMax = result;
+				currentVal -= i++; // for each iteration
+				result = getPathToTop(eachParent,++currentVal,currentTop);
 			}
-		} else
-			return currentTop;
-
-		return levelMax;
+		} else {
+			if(currentVal>currentTop) currentTop = currentVal;
+			return currentVal;
+		}
+		return result;
 	}
 
 	// return the number of paths that do not share a vertex from source to sink
