@@ -14,8 +14,8 @@ import java.lang.*;
  {
 	// properties
 	public Value value;
-	public TreeSet<Key> successors = new TreeSet<Key>();
-	public TreeSet<Key> predecessors = new TreeSet<Key>();
+	public LinkedHashSet<Key> successors = new LinkedHashSet<Key>();
+	public LinkedHashSet<Key> predecessors = new LinkedHashSet<Key>();
 	
 	// constructor
 	public Object Key ()

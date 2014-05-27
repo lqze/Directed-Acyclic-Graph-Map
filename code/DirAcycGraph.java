@@ -16,8 +16,8 @@ public class DirAcycGraph<Value> {
 	/**
 	 * DAGMap properties
 	 */
-	private TreeSet<Key> keySet = new TreeSet<Key>();	// all nodes in graph
-	private TreeSet<Key> orphanSet = new TreeSet<Key>();	// all nodes with no requirement nodes
+	private LinkedHashSet<Key> keySet = new LinkedHashSet<Key>();	// all nodes in graph
+	private LinkedHashSet<Key> orphanSet = new LinkedHashSet<Key>();	// all nodes with no requirement nodes
 
 	/**
 	 * Constructor Method
@@ -112,9 +112,10 @@ public class DirAcycGraph<Value> {
 	public boolean isEmpty() { return keySet.size()==0; }
 
 	public boolean containsKey (Key k) {
-		if(keySet!=null)
+		if(keySet!=null) {
 			for(Key eachKey : keySet)
 				if(eachKey.equals(k)) return true;
+		}
 		else
 			return false;
 		return false;
@@ -236,7 +237,7 @@ public class DirAcycGraph<Value> {
 		public void iterator(Set<Key> inputKeySet)
 		{
 			// Constructor
-			keyArray = new TreeSet<Key>();
+			keyArray = new LinkedHashSet<Key>();
 			this.addToArray(inputKeySet);
 			keyToArray = keyArray.toArray();
 			index = 0;
