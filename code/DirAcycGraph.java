@@ -16,25 +16,24 @@ public class DirAcycGraph<Value> {
 	/**
 	 * DAGMap properties
 	 */
-	private Set<Key> keySet;	// all nodes in graph
-	private Set<Key> orphanSet;	// all nodes with no requirement nodes
+	private TreeSet<Key> keySet = new TreeSet<Key>();	// all nodes in graph
+	private TreeSet<Key> orphanSet = new TreeSet<Key>();	// all nodes with no requirement nodes
 
 	/**
 	 * Constructor Method
 	 */
-	public DirAcycGraph () {
-		// initialise empty graph
-		keySet = new TreeSet<Key>();
-		orphanSet = new TreeSet<Key>();
+	public Object DirAcycGraph () {
+		Object dirAcycGraph = new Object();
+		return dirAcycGraph;
 	}
 	
 	public void put(Key newKey, Value newValue) throws IllegalArgumentException
 	{
 		if (!containsKey(newKey))
-		{	
-			newKey.value = newValue;
+		{
 			keySet.add(newKey);
 			orphanSet.add(newKey);
+			newKey.value = newValue;
 		}
 		else
 			throw new IllegalArgumentException("Key contained in graph already, or key is null");
@@ -112,7 +111,14 @@ public class DirAcycGraph<Value> {
 	
 	public boolean isEmpty() { return keySet.size()==0; }
 
-	public boolean containsKey (Key k) { return k != null; }
+	public boolean containsKey (Key k) {
+		if(keySet!=null)
+			for(Key eachKey : keySet)
+				if(eachKey.equals(k)) return true;
+		else
+			return false;
+		return false;
+	}
 
 	public boolean containsValue (Value value)
 	{
@@ -259,21 +265,6 @@ public class DirAcycGraph<Value> {
 				return keyToArray[index];
 			} else
 				throw new NoSuchElementException("No object exists");
-		}
-	}
-
-	public class Key<Key,Value> extends Object {
-		public Value value;
-		public Set<Key> successors;
-		public Set<Key> predecessors;
-		
-		public Object Key ()
-		{
-			Object key = new Object();
-			value = null;
-			successors = new TreeSet<Key>();
-			predecessors = new TreeSet<Key>();
-			return key;
 		}
 	}
 }
