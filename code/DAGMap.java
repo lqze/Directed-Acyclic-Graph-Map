@@ -1,9 +1,12 @@
+import java.util.*;
+import java.lang.*;
+
 /**
  * DirectedAcyclicGraph interface
  *   - Directed Edges (one way)
  *   - No cycles
  */
-public interface DAGMap<K,V> { 
+public interface DAGMap<Key,Value> { 
 
 	/**
 	* Standard map operation:
@@ -12,7 +15,7 @@ public interface DAGMap<K,V> {
 	* @param value the label of the vertex
 	* @throws IllegalArgumentException if key is null, or is already in the graph
 	**/ 
-	public void put(Key k, V value) throws IllegalArgumentException;
+	public void put(Key k, Value value) throws IllegalArgumentException;
 
 	/**
 	 * Standard map operation
@@ -21,7 +24,7 @@ public interface DAGMap<K,V> {
 	 * @return the value corresponding to key
 	 * @throws IllegalArgumentException if they key does not exist in the DAG
 	 **/
-	 public V get(Key k) throws IllegalArgumentException;
+	 public Value get(Key k) throws IllegalArgumentException;
 
 
 	/**
@@ -73,7 +76,7 @@ public interface DAGMap<K,V> {
 	* @return true if and only if there is at least one vertex in the graph with a 
 	* label equal to value
 	**/
-	public boolean containsValue(V value);
+	public boolean containsValue(Value value);
 
 	/**
 	* Tests whether key1 is a requirement for key2 (or is key2 is dependent on key1)
@@ -103,7 +106,7 @@ public interface DAGMap<K,V> {
 	* @return an iterator that will process the labels of the graph in topologically 
 	* sorted order
 	**/ 
-	public Iterator<K> iterator();
+	public Iterator<Key> iterator();
 
 	/**
 	* Tests whether this is equal to some object: The Object must be an implementation of 
@@ -123,7 +126,7 @@ public interface DAGMap<K,V> {
 	*Returns the set of vertices in the DAG  
 	*@return the set of vertices in the graph
 	**/ 
-	public Set<K> getKeySet();
+	public Set<Key> getKeySet();
 
 	/**
 	* Returns the set of keys that are immediately dependent on the given key 
@@ -132,7 +135,7 @@ public interface DAGMap<K,V> {
 	* @return the set of vertices dependent on key
 	* @throws IllegalArgumentException if key is not a vertex of the DAG
 	**/ 
-	public Set<K> getSuccessors(Key k) throws IllegalArgumentException;
+	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException;
 
 	/**
 	* Returns the set of keys that are immediate requirements for the given key 
@@ -142,7 +145,7 @@ public interface DAGMap<K,V> {
 	* @return the set of vertices required for key
 	* @throws IllegalArgumentException if key is not a vertex of the DAG
 	**/ 
-	public Set<K> getPredecessors(Key k) throws IllegalArgumentException;
+	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException;
 
 	/**
 	* The width of a DAG is the minimum number of paths required to cover it
@@ -171,7 +174,7 @@ public interface DAGMap<K,V> {
 	 * @param sinKey t end vertex
 	 * @return The maximum flow through the DAG
 	 **/
-	 public int getMaxFlow(Key srce, Key sk);
+	 public int getMaxFlow(Key source, Key sink);
 	
 	/**
 	* Returns a multi-line String representation of the DAGMap

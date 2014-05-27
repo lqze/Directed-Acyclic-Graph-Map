@@ -1,7 +1,6 @@
-import CITS2200.*;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.IllegalArgumentException;
+// imports
+import java.util.*;
+import java.lang.*;
 
 /**
  * DAG Map Assignment Interface and Class
@@ -12,39 +11,36 @@ import java.util.IllegalArgumentException;
  */
  
  
-public static class DirAcycGraph implements DAGMap {
+public class DirAcycGraph<Value> {
 
 	/**
 	 * DAGMap properties
 	 */
-	private int size; // stores the number of nodes in DAGMap
 	private Set<Key> keySet;	// all nodes in graph
-	private Set<Key> subGraphs;	// all nodes with no requirement nodes
+	private Set<Key> orphanSet;	// all nodes with no requirement nodes
 
 	/**
 	 * Constructor Method
 	 */
 	public DirAcycGraph () {
 		// initialise empty graph
-		size = 0;
-		rootKey = null;
-		keySet = new Set<Key>;
+		keySet = new TreeSet<Key>();
+		orphanSet = new TreeSet<Key>();
 	}
 	
-	public void put(Key newKey, V newValue) throws IllegalArgumentException
+	public void put(Key newKey, Value newValue) throws IllegalArgumentException
 	{
-		if (!containsKey(k))
-		{
-			Key newKey = new Key;	
-			k.value = newValue;
-			keySet.add(k);
-			subGraphs.add(k);
+		if (!containsKey(newKey))
+		{	
+			newKey.value = newValue;
+			keySet.add(newKey);
+			orphanSet.add(newKey);
 		}
 		else
 			throw new IllegalArgumentException("Key contained in graph already, or key is null");
 	}
 	
-	public V get(Key k) throws IllegalArgumentException
+	public Object get(Key k) throws IllegalArgumentException
 	{
 		if(containsKey(k))
 			return k.value;
@@ -56,11 +52,11 @@ public static class DirAcycGraph implements DAGMap {
 	{
 		if(containsKey(k))
 		{
-			// get all edges, removeEdges first
-			// then remove key
+			for(Key eachParent : getPredecessors(k))
+				eachParent.successors.remove(k);
+			for(Key eachChild : getSuccessors(k))
+				eachChild.successors.remove(k);
 			keySet.remove(k);
-			k.predecessors//remove from
-			k.successors//remove from
 		} else
 			throw new IllegalArgumentException("Key not defined in graph");
 	}
@@ -88,10 +84,10 @@ public static class DirAcycGraph implements DAGMap {
 		{
 			// update the Set<Object>s for both Keys
 			kReq.successors.add(kDep);
-			kDep.predecessors.add(k.Req);
+			kDep.predecessors.add(kReq);
 
-			if(subGraphs.contains(kDep))
-				subGraphs.remove(kDep);
+			if(orphanSet.contains(kDep))
+				orphanSet.remove(kDep);
 		}
 		else 
 			// if it would create a cycle
@@ -103,24 +99,22 @@ public static class DirAcycGraph implements DAGMap {
 		if (isDependent(kReq, kDep))
 		{
 			// remove from set of dependencies
-			for (Key node : kReq.successors)
-				if (node.equals(kDep))
-					kReq.successors.remove(node);
+			for (Key node : getSuccessors(kReq))
+				kReq.successors.remove(node);
 
 			// remove from set of requirements
-			for (Key node : kDep.predecessors)
-				if (node.equals(kReq))
-					kDep.predecessors.remove(node);
+			for (Key node : getPredecessors(kDep))
+				kDep.predecessors.remove(node);
 		}
 		else
 			throw new IllegalArgumentException("No dependency found between given keys");
 	}
 	
-	public boolean isEmpty() { return rootNode == null; }
+	public boolean isEmpty() { return keySet.size()==0; }
 
 	public boolean containsKey (Key k) { return k != null; }
 
-	public boolean containsValue (V value)
+	public boolean containsValue (Value value)
 	{
 		// check if DAGMap contains value
 		//   traverse/explore the entire map of key
@@ -141,7 +135,7 @@ public static class DirAcycGraph implements DAGMap {
 				if (getSuccessors(haystackKey) != null)
 				{
 					for(Key childKey : getSuccessors(haystackKey))
-						if (isDependent(childKey,needleKey) return true;
+						if (isDependent(childKey,needleKey)) return true;
 				}
 				else
 					return false;
@@ -149,69 +143,60 @@ public static class DirAcycGraph implements DAGMap {
 			return false;
 		}
 		else
-			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
+			throw new IllegalArgumentException("One or more parameters do not exist in graph!");
 	}
 
 	public Object clone() {
 		// shallow clone,
 		// copy all keys and dependencies?
+		return 0;
 	}
 	
 
 	public boolean equals(Object o) {
 		// check if this dagmap equals another dagmap (keys, values, relations)
+		return false ;
 	}
 
-	public Set<K> getKeySet() {
-		int i = 0;
-		Set<K> keysInDAG = new HashSet<K>;
-		while (i.keysInDAG != null) {
-			return i.keysInDAG;
-			i++:
-		}
+	public Set<Key> getKeySet() { return keySet; }
+
+	public int getWidth()
+	{
+		return 0;
 	}
 
-	public int getWidth() {
-		Set graveyard = HashSet();
-		// hit as many nodes in a row (put them in graveyard)
-		// keep hitting as many alive nodes in a row
-		// until all done
-	}
-
-	/**
-	 * Recursive algorithm to get all the edges
-	 */
-	private int getAllPaths(Key node) {
-		//initialise a counter
-		int numberOfPaths = 0;
-
-		// if successors exist
-		if(node.successors != null) {
-
-			// for every successor
-			for (Key childKey : getSuccessors(node)) {
-
-				// get the successors paths
-				numberOfPaths += getAllPaths(childKey);
-			}
-
-		} else
-			// if has no dependents, add 1 path
-			numberOfPaths++;
-
-		return numberOfPaths;
-	}
-
-
+	
 	public int getLongestPath()
 	{
-		// do something 
+		int curMax = 0;
+		int curCount = 0;
+		for(Key eachKey : keySet) {
+			curCount = getPathToTop(eachKey,0);
+			if (curCount>curMax) curMax=curCount;
+		}
+		return curMax;
+	}
+
+	public int getPathToTop(Key bottomNode, int currentTop)
+	{
+		if(!getPredecessors(bottomNode).isEmpty())
+		{
+			for(Key eachParent : getPredecessors(bottomNode))
+			{
+				int result = getPathToTop(eachParent,currentTop++);
+				if(result>levelMax) levelMax = result;
+			}
+		} else
+			return currentTop;
+
+		return levelMax;
 	}
 
 	// return the number of paths that do not share a vertex from source to sink
-	public int getMaxFlow(Key source, Key sink) {
+	public int getMaxFlow(Key source, Key sink)
+	{
 		int maxFlow = 0;
-		Set<Key> flowGraph = new HashSet();
+		Set<Key> flowGraph = new HashSet<Key>();
 
 		for(Key currentParent : getPredecessors(sink))
 			if(isDependent(currentParent, source) &&
@@ -227,44 +212,62 @@ public static class DirAcycGraph implements DAGMap {
 
 	// needs to output keys and values in DAGMap
 	// e.g. keys : values
-	public String toString() {
-	} 
-	
-	// return an ordering of the nodes in the graph such that
-	// for each node v, all of the ancestors appear before v
-	// itself in the topological ordering.
-	public Iterator<Key> iterator() {	// or <K>, instead of <Key> *according to interface*
-	
-		Set<Key> visited = new HashSet<Key>();
-		Set<Key> sortedNodes = new HashSet<Key>();
-		// a DFS to perform on the graph.
-		private static <Key> void traverseGraph (rootKey, <Key> visited, <Key> sortedNodes)
-		
-		public boolean hasNext() {
-		}
-		
-		public next() {
-			return getKeySet(sortedNodes);
-		}
+	public String toString()
+	{
+		return "string";
 	}
 	
 	/**
-	 * private class Key represents each Key node
-	 *   on the map, storing a set of successors
-	 *   and predecessors
+	 * public iterator subclass
 	 */
-	private class Key extends Object {
-		int value;
-		Set successors;
-		Set predecessors;
+	public class Iterator<Key> implements Iterator
+	{
+		Set<Key> visited;
+		Key cursor;
+
+		public void iterator(Set<Key> )
+		{
+			// constructor
+			visited = new TreeSet();
+			cursor = 
+		}
+
+		public boolean hasNext()
+		{
+			while(visited.contains(keySet[index]))
+				{index++;}
+			return keySet[index]!=null;
+		}
 		
-		public Object Key () {
-			value = null;
-			successors = new HashSet();
-			predecessors = new HashSet();
-		} 
+		public Object next()
+		{
+			if(this.hasNext())
+			{
+				vistied.add(keySet[index]);
+				return keySet[index];
+			}
+		}
+	}
+	class BasicQueueIterator implements Iterator {
+		private QueueCyclic backingQ;
+		private int current;
+
+		BasicQueueIterator(QueueCyclic q) {
+			backingQ = q;
+			current = backingQ.first;
+		}
 	}
 
+	public class Key<Key,Value> extends Object {
+		public Value value;
+		public Set<Key> successors;
+		public Set<Key> predecessors;
+		
+		public Object Key ()
+		{
+			value = null;
+			successors = new TreeSet<K>();
+			predecessors = new TreeSet<K>();
+		}
+	}
 }
-
-	
