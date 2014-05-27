@@ -118,7 +118,7 @@ public class DirAcycGraph<Value> {
 	{
 		// check if DAGMap contains value
 		//   traverse/explore the entire map of key
-		for(Key curKey : getKeySet)
+		for(Key curKey : getKeySet())
 			if (curKey.value == value)
 				return true;
 		return false; // if no true is returned after searching through graph
@@ -179,6 +179,7 @@ public class DirAcycGraph<Value> {
 
 	public int getPathToTop(Key bottomNode, int currentTop)
 	{
+		int 	levelMax = 0;
 		if(!getPredecessors(bottomNode).isEmpty())
 		{
 			for(Key eachParent : getPredecessors(bottomNode))
@@ -220,41 +221,44 @@ public class DirAcycGraph<Value> {
 	/**
 	 * public iterator subclass
 	 */
-	public class Iterator<Key> implements Iterator
+	public class Iterator
 	{
-		Set<Key> visited;
-		Key cursor;
+		int index;
+		Set<Key> keyArray;
+		Object[] keyToArray;
 
-		public void iterator(Set<Key> )
+		public void iterator(Set<Key> inputKeySet)
 		{
-			// constructor
-			visited = new TreeSet();
-			cursor = 
+			// Constructor
+			keyArray = new TreeSet<Key>();
+			this.addToArray(inputKeySet);
+			keyToArray = keyArray.toArray();
+			index = 0;
+		}
+
+		private void addToArray(Set<Key> currentKeySet)
+		{
+			for(Key currentKey : currentKeySet)
+				if(!keyArray.contains(currentKey))
+				{
+					keyArray.add(currentKey);
+					if(getSuccessors(currentKey).size() != 0)
+						addToArray(getSuccessors(currentKey));
+				}
 		}
 
 		public boolean hasNext()
 		{
-			while(visited.contains(keySet[index]))
-				{index++;}
-			return keySet[index]!=null;
+			return keyToArray.length > index;
 		}
 		
-		public Object next()
+		public Object next() throws NoSuchElementException
 		{
 			if(this.hasNext())
 			{
-				vistied.add(keySet[index]);
-				return keySet[index];
-			}
-		}
-	}
-	class BasicQueueIterator implements Iterator {
-		private QueueCyclic backingQ;
-		private int current;
-
-		BasicQueueIterator(QueueCyclic q) {
-			backingQ = q;
-			current = backingQ.first;
+				return keyToArray[index];
+			} else
+				throw new NoSuchElementException("No object exists");
 		}
 	}
 
@@ -265,9 +269,11 @@ public class DirAcycGraph<Value> {
 		
 		public Object Key ()
 		{
+			Object key = new Object();
 			value = null;
-			successors = new TreeSet<K>();
-			predecessors = new TreeSet<K>();
+			successors = new TreeSet<Key>();
+			predecessors = new TreeSet<Key>();
+			return key;
 		}
 	}
 }
