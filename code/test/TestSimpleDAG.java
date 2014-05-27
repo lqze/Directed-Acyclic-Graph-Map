@@ -76,7 +76,7 @@ public class TestSimpleDAG{
 	@Test
 	public void testGetPredecessors(expected=IllegalArgumentException.class)
 	{
-		boolean[] expected;
+		boolean[] expecting;
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
 		Set<Key> predKeys = new HashSet<Key>();
 		dm.put(A, "one");
@@ -90,10 +90,13 @@ public class TestSimpleDAG{
 		expecting = ( (containsAll(predKeys)) == (containsAll(getPredecessors(dm.keys)) ) );
 		assertEquals("Failure - not all predecessors wereretrieved", expecting, !expecting);
 	}
-	
+	/**
+	 * Test for a given key the correct set of successors is returned
+	 */
+	@Test
 	public void testGetSuccessors(expected=IllegalArgumentException.class)
 	{
-		boolean[] expected;
+		boolean[] expecting;
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
 		Set<Key> succKeys = new HashSet<Key>();
 		dm.put(A, "one");
@@ -109,10 +112,14 @@ public class TestSimpleDAG{
 		expecting = ( (containsAll(succKeys)) == (containsAll(getSuccessors(dm.keys)) ) );
 		assertEquals("Failure - not all successors were retrieved", expecting, !expecting);
 	}
-	
+	/**
+	 * Test that adding a dependency between two vertices, k1, k2, sets
+	 * k2 to have the predecessor k1, and k1 to have the successor k2.
+	 */
+	@Test
 	public void testAddDependency (expected=IllegalArgumentException.class)
 	{
-		boolean[] expected;
+		boolean[] expecting;
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
 		Set<Key> succKeys = new HashSet<Key>();
 		Set<Key> predKeys = new HashSet<Key>();
@@ -138,6 +145,7 @@ public class TestSimpleDAG{
 	 * Test that removing a dependency between two vertices, changes the state
 	 * of the successors and predecessors of the vertices.
 	 */
+	@Test
 	public void testRemoveDependency (expected=IllegalArgumentException.class)
 	{
 	//..	
@@ -162,7 +170,7 @@ public class TestSimpleDAG{
 		expected = ( !(succKeys.contains(D)) );
 		expected2 = ( !(predKeys.contains(A)) );
 		assertEquals("Fail - A is still predecessor of B", expected, removeDependency(A, B);
-		assertEquals("Fail - D is still a successor of B", 2expected, removeDependency(B, D);	
+		assertEquals("Fail - D is still a successor of B", expected2, removeDependency(B, D);	
 	}
 	/* May not need to test isEmpty..
 	public boolean isEmpty() { return rootNode == null; }
@@ -171,6 +179,7 @@ public class TestSimpleDAG{
 	/**
 	 * Test that a given key is contained in the DAGMap
 	 */
+	@Test
 	public void testContainsKey() {
 		boolean[] expected;
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
@@ -181,11 +190,12 @@ public class TestSimpleDAG{
 		
 		expected = ( dm.contains(A) );
 		
-		assertEquals("Fail - DM does not contain element A", null, expected);
+		assertEquals("Fail - DM does not contain element A", A, expected);
 	}
 	/**
-	 * Test that any key key has the given value
+	 * Test that any key in the DAGMap contains the given value.
 	 */
+	@Test
 	public void testContainsValue()
 	{
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
@@ -200,11 +210,44 @@ public class TestSimpleDAG{
 		assertEquals("Failure - incorrect value returned", 2, containsValue(2) );
 		assertEquals("Failure - incorrect value returned", Beepis, containsValue(Beepis) );
 	}
-
+	/**
+	 * Tests that there exists a dependency between k1 and k2, where k2 is dependent on k1.
+	 */
+	@Test
 	public void testIsDependent (expected=IllegalArgumentException.class)
 	{
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		HashSet<Key> succKeys = new HashSet<Key>();
+		HashSet<Key> predKeys = new HashSet<Key>();
+		dm.addDependency()
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, 2);
+		dm.put(D, Beepis);
 		
+		expected = ( (succKeys.contains(D)) && (predKeys.contains(A)) );
+		assertEquals = ("Failure - B is not dependent on C", true, isDependent(B, C));
 	}
 	
-	*/
+	/**
+	 * Tests that all the keys in the DAGMap are returned
+	 */
+	@Test
+	public void testGetKeySet() {
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		HashSet<Key> trueKeySet = new HashSet<Key>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, 2);
+		dm.put(D, Beepis);
+		trueKeySet.add(A);
+		trueKeySet.add(B);
+		trueKeySet.add(C);
+		trueKeySet.add(D);
+		assertEquals ("Not all Keys returned", trueKeySet, getKeySet());
+	}
 }
+
+
+
+
