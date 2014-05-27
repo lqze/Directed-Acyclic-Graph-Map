@@ -128,50 +128,82 @@ public class TestSimpleDAG{
 		succKeys.add(C);
 		predKeys.add(A);
 		predKeys.add(D);
+		// test that B has predecessor A and successor D
+		expected = ( (succKeys.contains(D)) && (predKeys.contains(A)) );
 		
-		assertEquals("Fail - incorrect child||parents returned)
+		assertEquals("Fail - incorrect child||parents returned", expected, !expected); 
 	}
 
-	public void removeDependency (expected=IllegalArgumentException.class)
+	/**
+	 * Test that removing a dependency between two vertices, changes the state
+	 * of the successors and predecessors of the vertices.
+	 */
+	public void testRemoveDependency (expected=IllegalArgumentException.class)
 	{
 	//..	
+		boolean[] expected;
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		Set<Key> succKeys = new HashSet<Key>();
+		Set<Key> predKeys = new HashSet<Key>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.addDependency(A, C);
+		dm.addDependency(A, B);
+		dm.addDependency(B, D);
+		dm.addDependency(C, E);
+		succKeys.add(B);
+		succKeys.add(C);
+		predKeys.add(A);
+		predKeys.add(D);
+		// test that B no longer has predecessor A and successor D
+		// after removing it
+		expected = ( !(succKeys.contains(D)) );
+		expected2 = ( !(predKeys.contains(A)) );
+		assertEquals("Fail - A is still predecessor of B", expected, removeDependency(A, B);
+		assertEquals("Fail - D is still a successor of B", 2expected, removeDependency(B, D);	
 	}
-	
+	/* May not need to test isEmpty..
 	public boolean isEmpty() { return rootNode == null; }
-	/*
+	*/
 	
-	public boolean containsKey (Key k) { return k != null; }
-
-	public boolean containsValue (V value)
+	/**
+	 * Test that a given key is contained in the DAGMap
+	 */
+	public void testContainsKey() {
+		boolean[] expected;
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		
+		expected = ( dm.contains(A) );
+		
+		assertEquals("Fail - DM does not contain element A", null, expected);
+	}
+	/**
+	 * Test that any key key has the given value
+	 */
+	public void testContainsValue()
 	{
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		Value<V> Beepis = new Value<V>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, 2);
+		dm.put(D, Beepis);
 		// check if DAGMap contains value
 		//   traverse/explore the entire map of key
-		for(Key curKey : getKeySet)
-			if (curKey.value == value)
-				return true;
-		return false; // if no true is returned after searching through graph
+		assertEquals("Failure - incorrect value returned", "one", containsValue("one") );
+		assertEquals("Failure - incorrect value returned", 2, containsValue(2) );
+		assertEquals("Failure - incorrect value returned", Beepis, containsValue(Beepis) );
 	}
 
-	public boolean isDependent (Key haystackKey, Key needleKey) throws IllegalArgumentException
+	public void testIsDependent (expected=IllegalArgumentException.class)
 	{
-		if (haystackKey != null && needleKey != null)
-		{
-			if(haystackKey.equals(needleKey))
-				return true;
-			else
-			{
-				if (getSuccessors(haystackKey) != null)
-				{
-					for(Key childKey : getSuccessors(haystackKey))
-						if (isDependent(childKey,needleKey) return true;
-				}
-				else
-					return false;
-			}
-			return false;
-		}
-		else
-			throw new IllegalArgumentException("One or more parameters do not exist in graph!")
+		
 	}
 	
 	*/
