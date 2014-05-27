@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class TestSimpleDAG{
 	/**
 	 * A setup method for the Test methods
-	 */
+	 *
 	@Before
 	public void setup() {
 		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
@@ -36,15 +36,22 @@ public class TestSimpleDAG{
 		dm.put(C, "hello");
 		dm.put(D, "ennis");
 		dm.put(E, "vil");
-	}
+	}**/
+	
+	
 	/** 
 	 * Tests that the corresponding value to a given key is returned correctly.
 	 * e.g.: key A should return the value "one".
 	 */
 	@Test
 	public void testGet(expected=IllegalArgumentException.class) {
-		Key k = new Key;
-		assertEquals("Failure - value for A is incorrect", k.get(A), "one");
+		DAGMap<Key, Value> dm = new DAGMAP<Key, Value>();
+		dm.put(A, "one");
+		dm.put(B, "bee");
+		dm.put(C, "hello");
+		dm.put(D, "ennis");
+		dm.put(E, "vil");
+		assertEquals("Failure - value for A is incorrect", "one", dm.get(A));
 	}
 	/** 
 	 * Tests that for any given vertex, it is successfully removed
