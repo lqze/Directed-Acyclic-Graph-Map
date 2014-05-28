@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-public class DAGMapTest {
+public class DAGMapDemo {
 
 	public static void main(String[] args)
 	{
