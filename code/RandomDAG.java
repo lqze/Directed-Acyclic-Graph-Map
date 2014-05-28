@@ -5,55 +5,58 @@
 import java.util.*; // for Random, Set, List, Map
 import java.lang.IllegalArgumentException;
 
-public class RandomDAG {
+public class RandomDAG<Value> {
+
+
+		Key[] keyArray = new Key[keySize+1];
+		DirAcycGraph dm = new DirAcycGraph();
 
 	public static void main (String[] args) {
-	
+
+/*		int keySize = 0;
+		Key[] keyArray = new Key[keySize+1];
+		int dependency = 0;
+		DirAcycGraph dm = new DirAcycGraph();
+*/	
 		if(args.length==2)
 		{
-			int density = 0;
-			int keySize = 0;
-			DirAcycGraph dm = new DirAcycGraph();
 
+			int dependency = 0;
+			int keySize = 0;
 			try {
 				keySize = Integer.parseInt(args[0]);
-				density = Integer.parseInt(args[1]);
+				dependency = Integer.parseInt(args[1]);
 				}			//amount of verticies in graph
 				catch(NumberFormatException e)
-				{//error}
+				{
 					System.exit(0);
 				}
 
-				Key[] keyArray = new Key[keySize+1];
 			
-			if (density > keySize) {
-				throw new IllegalArgumentException ("Density cannot be greater than keysize.");
-			} else {
-				Random r  = new Random();
-				//Put given amount of 
-				for (int i=0;i<keySize;i++)
-				{
-					Key key = new Key();
-					keyArray[i] = key;
-				}
-				//int val;
-				for(Key i : keyArray)
-				{
-					dm.put(i, "Value");
-					/*if (r.nextInt() = i)
-						dm.put(i, "Wow..lucky");*/
-				}
+				if (dependency > keySize) {
+					throw new IllegalArgumentException ("Second arg cannot be greater than first arg.");
+				}	
 			
-				/*for (Key i : density) {
-					Key<Integer> val = r.nextInt(i);
-					if (!isDependent(val, i))
-						dm.addDependency(val, i);		
-					else i++;
-				}*/
+			//createKeyArray(keySize);
+	
 
-			}
 
 		}
+
 	}
 
+	public void createKey (int arrayPosition, Value value)
+	{
+		Key key = new Key();
+		keyArray[arrayPosition] = key;
+		dm.put(keyArray[arrayPosition], value);
+	}
+
+	public void createKeyArray (int keySize)
+	{
+
+		Key[] keyArray = new Key[keySize+1];
+		for (int i=0;i<keySize;i++)
+			createKey(i, "value");
+	}
 }
