@@ -11,7 +11,7 @@ import java.lang.*;
  */
  
  
-public class DirAcycGraph<Value> {
+public class DirAcycGraph<Value> implements DAGMap<Key,Value> {
 
 	/**
 	 * DAGMap properties
@@ -208,6 +208,8 @@ public class DirAcycGraph<Value> {
 
 	public int getWidth()
 	{
+		LinkedHashSet<Key> visited = new LinkedHashSet<Key>();
+		
 		return 0;
 	}
 	
@@ -241,8 +243,7 @@ public class DirAcycGraph<Value> {
 	}
 
 	// return the number of paths that do not share a vertex from source to sink
-	public int getMaxFlow(Key source, Key sink)
-	{
+	public int getMaxFlow(Key source, Key sink) {
 		Set<Key> markedNodes = new HashSet<Key>();
 		return getNextFlow(source, sink, markedNodes);
 	}
@@ -265,24 +266,52 @@ public class DirAcycGraph<Value> {
 	// e.g. keys : values
 	public String toString()
 	{
-		return "string";
+		// define multi-line outputString
+		String outputString = "Key : Value pairs" + "\n";
+
+		// intialise the top-sort iterator
+		DAGIterator itr = new DAGIterator();
+
+		// for every top-sorted node
+		while(itr.hasNext())
+		{
+			Key next = itr.next();
+			outputString += next+" : "+next.value+"\n";
+		}
+
+		outputString += "\n" + "Requirement : Dependent pairs" + "\n";
+
+		for(Key everyKey : keySet)
+		{
+			if(!getSuccessors(everyKey).isEmpty())
+				for(Key successor : getSuccessors(everyKey))
+				outputString += everyKey + " : " + successor + "\n";
+		}
+
+		return outputString;
+	}
+
+	public Iterator<Key> iterator()
+	{
+		DAGIterator itr = new DAGIterator();
+		return itr;
 	}
 	
 	/**
 	 * public iterator subclass
 	 */
-	public class Iterator
+	public class DAGIterator implements Iterator
 	{
 		int index;
 		Set<Key> keyArray;
-		Object[] keyToArray;
+		Key[] keyToArray;
 
-		public void iterator(Set<Key> inputKeySet)
+		public DAGIterator()
 		{
 			// Constructor
 			keyArray = new LinkedHashSet<Key>();
-			this.addToArray(inputKeySet);
-			keyToArray = keyArray.toArray();
+			addToArray(orphanSet);
+			keyToArray = keyArray.toArray(new Key[keySet.size()+1]);
 			index = 0;
 		}
 
@@ -292,23 +321,30 @@ public class DirAcycGraph<Value> {
 				if(!keyArray.contains(currentKey))
 				{
 					keyArray.add(currentKey);
-					if(getSuccessors(currentKey).size() != 0)
+					if(!getSuccessors(currentKey).isEmpty())
 						addToArray(getSuccessors(currentKey));
 				}
 		}
 
+		@Override
 		public boolean hasNext()
 		{
-			return keyToArray.length > index;
+			return keyToArray[index]!=null;
 		}
 		
-		public Object next() throws NoSuchElementException
+		@Override
+		public Key next() throws NoSuchElementException
 		{
-			if(this.hasNext())
+			if(hasNext())
 			{
-				return keyToArray[index];
+				return keyToArray[index++];
 			} else
 				throw new NoSuchElementException("No object exists");
+		}
+
+		public void remove()
+		{
+			// do nothing
 		}
 	}
 }

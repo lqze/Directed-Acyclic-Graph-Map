@@ -38,14 +38,11 @@ public class DAGMapTest {
 		myGraph.addDependency(EZEZ,Z);
 		myGraph.addDependency(EZ,B);
 
-		//myGraph.remove(EZ,"ez");
+		System.out.println(myGraph.toString());
 
-		DirAcycGraph newGraph = myGraph.clone();
+		myGraph.remove(A);
 
-		boolean graph;
-		graph = newGraph.equals(myGraph);
-
-		System.out.println(graph);
+		System.out.println(myGraph.toString());
 	}
 
 }

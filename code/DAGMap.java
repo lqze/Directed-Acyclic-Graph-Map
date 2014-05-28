@@ -24,7 +24,7 @@ public interface DAGMap<Key,Value> {
 	 * @return the value corresponding to key
 	 * @throws IllegalArgumentException if they key does not exist in the DAG
 	 **/
-	 public Value get(Key k) throws IllegalArgumentException;
+	 public Object get(Key k) throws IllegalArgumentException;
 
 
 	/**
@@ -174,7 +174,7 @@ public interface DAGMap<Key,Value> {
 	 * @param sinKey t end vertex
 	 * @return The maximum flow through the DAG
 	 **/
-	 public int getMaxFlow(Key source, Key sink);
+	public int getMaxFlow(Key source, Key sink);
 	
 	/**
 	* Returns a multi-line String representation of the DAGMap
