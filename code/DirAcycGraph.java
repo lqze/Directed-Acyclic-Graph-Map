@@ -208,11 +208,19 @@ public class DirAcycGraph<Value> implements DAGMap<Key,Value> {
 
 	public int getWidth()
 	{
-		LinkedHashSet<Key> visited = new LinkedHashSet<Key>();
-		
-		return 0;
+		int topWidth = 0;
+		for(Key j : orphanSet)
+		{
+			for(Key i : getKeySet())
+			{
+				int thisWidth = getNextFlow(j,i, new LinkedHashSet<Key>());
+				if(thisWidth>topWidth)
+					topWidth = thisWidth;
+			}
+		}
+		return topWidth;
 	}
-	
+
 	public int getLongestPath()
 	{
 		int curMax = 0;
