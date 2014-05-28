@@ -10,36 +10,34 @@ public class DAGMapTest {
 		Key B = new Key();
 		Key C = new Key();
 		Key D = new Key();
-		Key E = new Key();
-		Key F = new Key();
 		Key Z = new Key();
-		Key Y = new Key();
-		Key X = new Key();
-		Key HI = new Key();
+		Key EZ = new Key();
+		Key EZEZ = new Key();
+		Key SQUEEZY = new Key();
 		String v = "woo";
 
 		myGraph.put(A,"a");
 		myGraph.put(B,"b");
 		myGraph.put(C,"c");
 		myGraph.put(D,"d");
-		myGraph.put(E,"e");
-		myGraph.put(F,"f");
-		myGraph.put(X,"x");
 		myGraph.put(Z,"z");
-		myGraph.put(Y,"y");
-		myGraph.put(HI,"hey");
+		myGraph.put(EZ,"ez");
+		myGraph.put(EZEZ,"ezez");
+		myGraph.put(SQUEEZY,"squeezy");
 
 		myGraph.addDependency(A,B);
 		myGraph.addDependency(B,D);
 		myGraph.addDependency(A,C);
-		myGraph.addDependency(C,E);
-		myGraph.addDependency(E,F);
-		myGraph.addDependency(Z,E);
-		myGraph.addDependency(X,Z);
-		myGraph.addDependency(Y,X);
-		myGraph.addDependency(F,HI);
+		myGraph.addDependency(C,D);
+		myGraph.addDependency(A,Z);
+		myGraph.addDependency(Z,D);
+		myGraph.addDependency(SQUEEZY,A);
+		myGraph.addDependency(SQUEEZY,EZ);
+		myGraph.addDependency(SQUEEZY,Z);
+		myGraph.addDependency(EZEZ,Z);
+		myGraph.addDependency(EZ,B);
 
-		System.out.println(myGraph.getLongestPath());
+		System.out.println(myGraph.getMaxFlow(SQUEEZY,D));
 	}
 
 }

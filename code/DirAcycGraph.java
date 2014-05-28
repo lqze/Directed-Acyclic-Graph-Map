@@ -68,7 +68,7 @@ public class DirAcycGraph<Value> {
     		throw new IllegalArgumentException("Key not defined in graph");
 	}
 	
-	public Set<Key> getSuccessors(Key k) throws IllegalArgumentException
+	public LinkedHashSet<Key> getSuccessors(Key k) throws IllegalArgumentException
 	{
 		if(containsKey(k))
 			return k.successors;
@@ -87,6 +87,7 @@ public class DirAcycGraph<Value> {
 
 			if(orphanSet.contains(kDep))
 				orphanSet.remove(kDep);
+
 		}
 		else 
 			// if it would create a cycle
@@ -123,8 +124,6 @@ public class DirAcycGraph<Value> {
 
 	public boolean containsValue (Value value)
 	{
-		// check if DAGMap contains value
-		//   traverse/explore the entire map of key
 		for(Key curKey : getKeySet())
 			if (curKey.value == value)
 				return true;
@@ -139,7 +138,7 @@ public class DirAcycGraph<Value> {
 				return true;
 			else
 			{
-				if (getSuccessors(haystackKey) != null)
+				if (!getSuccessors(haystackKey).isEmpty())
 				{
 					for(Key childKey : getSuccessors(haystackKey))
 						if (isDependent(childKey,needleKey)) return true;
@@ -153,19 +152,18 @@ public class DirAcycGraph<Value> {
 			throw new IllegalArgumentException("One or more parameters do not exist in graph!");
 	}
 
+	public Set<Key> getKeySet() { return keySet; }
+
 	public Object clone() {
 		// shallow clone,
 		// copy all keys and dependencies?
 		return 0;
 	}
-	
 
 	public boolean equals(Object o) {
 		// check if this dagmap equals another dagmap (keys, values, relations)
 		return false ;
 	}
-
-	public Set<Key> getKeySet() { return keySet; }
 
 	public int getWidth()
 	{
@@ -186,7 +184,7 @@ public class DirAcycGraph<Value> {
 
 	public int getPathToTop(Key bottomNode, int currentVal, int currentTop)
 	{
-		int i=0;
+		int i = 0;
 		int result = 0;
 		if(!getPredecessors(bottomNode).isEmpty())
 		{
@@ -205,19 +203,22 @@ public class DirAcycGraph<Value> {
 	// return the number of paths that do not share a vertex from source to sink
 	public int getMaxFlow(Key source, Key sink)
 	{
-		int maxFlow = 0;
-		Set<Key> flowGraph = new HashSet<Key>();
+		Set<Key> markedNodes = new HashSet<Key>();
+		return getNextFlow(source, sink, markedNodes);
+	}
 
+	private int getNextFlow(Key source, Key sink, Set<Key> markedNodes)
+	{
+		if(source.equals(sink)) return 1; // return if reached top
+
+		int curFlow = 0;
 		for(Key currentParent : getPredecessors(sink))
-			if(isDependent(currentParent, source) &&
-				!flowGraph.contains(currentParent) &&
-				!getSuccessors(currentParent).contains(source))
+			if(isDependent(source, currentParent) && !markedNodes.contains(currentParent))
 			{
-				flowGraph.add(currentParent);
-				maxFlow += getMaxFlow(source, currentParent);
+				if(!currentParent.equals(source)) markedNodes.add(currentParent); // mark the node
+				curFlow += getNextFlow(source, currentParent, markedNodes); // accumulate recursively
 			}
-			else return 1;
-		return maxFlow;
+		return curFlow;
 	}
 
 	// needs to output keys and values in DAGMap
