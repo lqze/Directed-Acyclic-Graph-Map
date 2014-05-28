@@ -16,7 +16,7 @@ public class DirAcycGraph<Value> {
 	/**
 	 * DAGMap properties
 	 */
-	private LinkedHashSet<Key> keySet = new LinkedHashSet<Key>();	// all nodes in graph
+	public LinkedHashSet<Key> keySet = new LinkedHashSet<Key>();	// all nodes in graph
 	private LinkedHashSet<Key> orphanSet = new LinkedHashSet<Key>();	// all nodes with no requirement nodes
 
 	/**
@@ -60,7 +60,7 @@ public class DirAcycGraph<Value> {
 			throw new IllegalArgumentException("Key not defined in graph");
 	}
 	
-	public Set<Key> getPredecessors(Key k) throws IllegalArgumentException
+	public LinkedHashSet<Key> getPredecessors(Key k) throws IllegalArgumentException
 	{
 		if(containsKey(k))
 			return k.predecessors;
@@ -113,8 +113,8 @@ public class DirAcycGraph<Value> {
 	public boolean isEmpty() { return keySet.size()==0; }
 
 	public boolean containsKey (Key k) {
-		if(keySet!=null) {
-			for(Key eachKey : keySet)
+		if(!getKeySet().isEmpty()) {
+			for(Key eachKey : getKeySet())
 				if(eachKey.equals(k)) return true;
 		}
 		else
@@ -152,24 +152,64 @@ public class DirAcycGraph<Value> {
 			throw new IllegalArgumentException("One or more parameters do not exist in graph!");
 	}
 
-	public Set<Key> getKeySet() { return keySet; }
+	public LinkedHashSet<Key> getKeySet() { return keySet; }
 
-	public Object clone() {
-		// shallow clone,
-		// copy all keys and dependencies?
-		return 0;
+	public DirAcycGraph clone() {
+		DirAcycGraph newDAG = new DirAcycGraph();
+
+		// copy all keys
+		for(Key allKeys : getKeySet())
+		{
+			newDAG.put(allKeys,allKeys.value);
+		}
+		for(Key allKeys : getKeySet())
+			for(Key dependent : getSuccessors(allKeys))
+				newDAG.addDependency(allKeys,dependent);
+
+		return newDAG;
 	}
 
-	public boolean equals(Object o) {
+	public boolean equals(DirAcycGraph<Value> otherGraph) throws NullPointerException
+	{
 		// check if this dagmap equals another dagmap (keys, values, relations)
-		return false ;
+		if(otherGraph !=  null)
+		{
+			// if graphs dont contain the same amount of nodes
+			if(otherGraph.keySet.size() != keySet.size())
+				return false;
+
+			// test the validity of the keys
+			for(Key keyInSet : keySet)
+			{
+				boolean matchesValue = false;
+				boolean matchesSuccessors = false;
+
+				// if node does not exist in other set
+				if(!otherGraph.containsKey(keyInSet)) return false;
+
+				for(Key keyInOtherSet : otherGraph.keySet)
+				{
+					// if matching keyset found
+					if (keyInOtherSet.value == keyInSet.value)
+					{
+						// compare sucessors
+						matchesSuccessors = getSuccessors(keyInOtherSet).equals(getSuccessors(keyInSet));
+						matchesValue = true;
+					}
+				}
+				
+				if(!matchesValue || !matchesSuccessors)
+					return false;
+			}
+			return true;
+		} else
+			throw new NullPointerException("Parameter graph is a null pointer");
 	}
 
 	public int getWidth()
 	{
 		return 0;
 	}
-
 	
 	public int getLongestPath()
 	{

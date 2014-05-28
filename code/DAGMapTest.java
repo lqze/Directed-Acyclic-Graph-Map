@@ -12,6 +12,7 @@ public class DAGMapTest {
 		Key D = new Key();
 		Key Z = new Key();
 		Key EZ = new Key();
+		Key Zed = new Key();
 		Key EZEZ = new Key();
 		Key SQUEEZY = new Key();
 		String v = "woo";
@@ -37,7 +38,14 @@ public class DAGMapTest {
 		myGraph.addDependency(EZEZ,Z);
 		myGraph.addDependency(EZ,B);
 
-		System.out.println(myGraph.getMaxFlow(SQUEEZY,D));
+		//myGraph.remove(EZ,"ez");
+
+		DirAcycGraph newGraph = myGraph.clone();
+
+		boolean graph;
+		graph = newGraph.equals(myGraph);
+
+		System.out.println(graph);
 	}
 
 }
