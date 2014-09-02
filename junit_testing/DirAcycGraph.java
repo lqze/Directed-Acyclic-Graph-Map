@@ -9,7 +9,7 @@ import java.lang.*;
  * @author Caleb Fetzer 21384976	
  * @author Reece Notargiacomo 21108155
  */
- 
+
  
 public class DirAcycGraph<Value> {
 
